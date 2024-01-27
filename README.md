@@ -1,6 +1,6 @@
 # Boids Flocking Simulation in Pascal
 
-_Version 1.3.0+20220406  ([Version Release Notes](#ReleaseNotes))_ 
+_Version 1.0.0 20240127  ([Version Release Notes](#ReleaseNotes))_ 
 
 **Boids Flocking Simulation** is an open source flock of birds simulation.
 
