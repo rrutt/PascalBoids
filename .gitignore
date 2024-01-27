@@ -1,0 +1,11 @@
+
+backup/
+lib/
+
+*.exe
+*.res
+
+src/AstroSim
+!bin/AstroSim
+!bin/*.exe
+
