@@ -5,7 +5,8 @@ lib/
 *.exe
 *.res
 
-src/AstroSim
-!bin/AstroSim
+src/PascalBoids
+
+!bin/PascalBoids
 !bin/*.exe
 
