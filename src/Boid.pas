@@ -5,7 +5,7 @@ unit Boid;
 interface
 
 uses
-  Classes, Math, SysUtils;
+  Classes, Graphics, Math, SysUtils;
 
 type
   TBoid = Class
@@ -27,6 +27,7 @@ type
       function MergeIfAdjacent(const OtherBoid: TBoid): Boolean;
       procedure Accelerate(const OtherBoid: TBoid);
       procedure Move;
+      procedure Paint(const TheCanvas: TCanvas);
   end;
 
 implementation
@@ -139,6 +140,48 @@ implementation
 
     X := X + VelocityX;
     Y := Y + VelocityY;
+  end;
+
+  procedure TBoid.Paint(const TheCanvas: TCanvas);
+  var
+    truncX: Integer;
+    truncY: Integer;
+    p: Array[0..4] of TPoint;
+  begin
+    truncX := Trunc(X);
+    truncY := Trunc(Y);
+
+    if (Abs(VelocityY) >= Abs(VelocityX)) then begin
+      if (VelocityY >= 0) then begin
+        p[0].X := truncX + 0; p[0].Y := truncY + 0;
+        p[1].X := truncX - 5; p[1].Y := truncY - 1;
+        p[2].X := truncX + 0; p[2].Y := truncY + 10;
+        p[3].X := truncX + 5; p[3].Y := truncY - 1;
+        p[4].X := truncX + 0; p[4].Y := truncY + 0;
+      end else begin
+        p[0].X := truncX + 0; p[0].Y := truncY + 0;
+        p[1].X := truncX + 5; p[1].Y := truncY + 1;
+        p[2].X := truncX + 0; p[2].Y := truncY - 10;
+        p[3].X := truncX - 5; p[3].Y := truncY + 1;
+        p[4].X := truncX + 0; p[4].Y := truncY + 0;
+      end
+    end else begin
+      if (VelocityX >= 0) then begin
+        p[0].Y := truncY + 0; p[0].X := truncX + 0;
+        p[1].Y := truncY - 5; p[1].X := truncX - 1;
+        p[2].Y := truncY + 0; p[2].X := truncX + 10;
+        p[3].Y := truncY + 5; p[3].X := truncX - 1;
+        p[4].Y := truncY + 0; p[4].X := truncX + 0;
+      end else begin
+        p[0].Y := truncY + 0; p[0].X := truncX + 0;
+        p[1].Y := truncY + 5; p[1].X := truncX + 1;
+        p[2].Y := truncY + 0; p[2].X := truncX - 10;
+        p[3].Y := truncY - 5; p[3].X := truncX + 1;
+        p[4].Y := truncy + 0; p[4].X := truncX + 0;
+      end;
+    end;
+
+    TheCanvas.Polygon(p);
   end;
 
 end.

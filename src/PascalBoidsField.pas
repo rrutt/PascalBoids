@@ -140,10 +140,7 @@ implementation
   procedure TPascalBoidsField.Paint;
   var
     i: Integer;
-    x: Integer;
-    y: Integer;
     a: TBoid;
-    zoomedRadius: Integer;
     Bitmap: TBitmap;
   begin
     Bitmap := TBitmap.Create;
@@ -153,14 +150,15 @@ implementation
       Bitmap.Height := Height;
       Bitmap.Width := Width;
 
+      Bitmap.Canvas.Brush.Color := clAqua;
+      Bitmap.Canvas.FillRect(0, 0, Width, Height);
+
+      Bitmap.Canvas.Pen.Color := clWhite;
       Bitmap.Canvas.Brush.Color := clWhite;
       for i := 1 to InitialBoidCount do begin
         a := Boids[i];
         if (a.IsActive) then begin
-          x := Trunc(a.X * InverseZoom) + ViewOffsetX;
-          y := Trunc(a.Y * InverseZoom) + ViewOffsetY;
-          zoomedRadius := Max(2, Ceil(a.Radius * InverseZoom));
-          Bitmap.Canvas.Ellipse(x - zoomedRadius, y - zoomedRadius, x + zoomedRadius, y + zoomedRadius);
+          a.Paint(Bitmap.Canvas);
         end;
       end;
 
