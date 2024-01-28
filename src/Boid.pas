@@ -12,44 +12,35 @@ type
     private
     public
       IsActive: Boolean;
-      Radius: Integer;
-      Mass: Single;
       X: Single;
       Y: Single;
       VelocityX: Single;
       VelocityY: Single;
-      AccelerationX: Single;
-      AccelerationY: Single;
 
       //TODO: Add Boolean IsHawk.
 
       procedure Clear;
       procedure Randomize(const Width: Integer; const Height: Integer);
       procedure Initialize(const newX: Integer; const newY: Integer);
-      function MergeIfAdjacent(const OtherBoid: TBoid): Boolean;
-      procedure Accelerate(const OtherBoid: TBoid);
-      procedure Move;
       procedure Paint(const TheCanvas: TCanvas);
+      procedure Flock(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+      procedure Align(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+      procedure Avoid(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+      procedure Predator(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+      procedure AdjustVelocity;
+      procedure MoveForward;
+      procedure BounceAwayFromWalls;
+      procedure WrapAround;
   end;
 
 implementation
-  const
-    INITIAL_RADIUS = 2;
-    INITIAL_MASS = 4.0;
-    GRAVITY = 10.0;
 
   procedure TBoid.Clear;
   begin
     IsActive := false;
 
-    Radius := INITIAL_RADIUS;
-    Mass := INITIAL_MASS;
-
     VelocityX := 0.0;
     VelocityY := 0.0;
-
-    AccelerationX := 0.0;
-    AccelerationY := 0.0;
   end;
 
   procedure TBoid.Randomize(const Width: Integer; const Height: Integer);
@@ -70,78 +61,6 @@ implementation
     Y := newY;
 
     IsActive := true;
-  end;
-
-  function TBoid.MergeIfAdjacent(const OtherBoid: TBoid): Boolean;
-  var
-    dx: Single;
-    dy: Single;
-    distanceSquared: Single;
-    r: Single;
-    rSquared: Single;
-    combinedMomentumX: Single;
-    combinedMomentumY: Single;
-    isAdjacent: Boolean;
-  begin
-    dx := OtherBoid.X - X;
-    dy := OtherBoid.Y - Y;
-    distanceSquared := (dx * dx) + (dy * dy);
-
-    r := Radius + OtherBoid.Radius;
-    rSquared := (r * r);
-
-    isAdjacent := (distanceSquared <= rSquared);
-    if (isAdjacent) then begin
-      X := (X + OtherBoid.X) / 2;
-      Y := (Y + OtherBoid.Y) / 2;
-
-      combinedMomentumX := (VelocityX * Mass) + (OtherBoid.VelocityX * OtherBoid.Mass);
-      combinedMomentumY := (VelocityY * Mass) + (OtherBoid.VelocityY * OtherBoid.Mass);
-
-      Mass := Mass + OtherBoid.Mass;
-
-      VelocityX := combinedMomentumX / Mass;
-      VelocityY := combinedMomentumY / Mass;
-
-      Radius := Ceil(Sqrt(Mass));
-
-      OtherBoid.Clear();
-    end;
-
-    Result := isAdjacent;
-  end;
-
-  procedure TBoid.Accelerate(const OtherBoid: TBoid);
-  var
-    dx: Single;
-    dy: Single;
-    distanceSquared: Single;
-    accelerationMagnitude: Single;
-    distanceMagnitude: Single;
-    dxNormalized: Single;
-    dyNormalized: Single;
-  begin
-    dx := OtherBoid.X - X;
-    dy := OtherBoid.Y - Y;
-    distanceSquared := (dx * dx) + (dy * dy);
-
-    distanceMagnitude := Sqrt(DistanceSquared);
-    dxNormalized := dx / distanceMagnitude;
-    dyNormalized := dy / distanceMagnitude;
-
-    accelerationMagnitude := (GRAVITY * OtherBoid.Mass) / distanceSquared;
-
-    AccelerationX := AccelerationX + (accelerationMagnitude * dxNormalized);
-    AccelerationY := AccelerationY + (accelerationMagnitude * dyNormalized);
-  end;
-
-  procedure TBoid.Move;
-  begin
-    VelocityX := VelocityX + AccelerationX;
-    VelocityY := VelocityY + AccelerationY;
-
-    X := X + VelocityX;
-    Y := Y + VelocityY;
   end;
 
   procedure TBoid.Paint(const TheCanvas: TCanvas);
@@ -188,6 +107,46 @@ implementation
     TheCanvas.Brush.Color := clWhite;
 
     TheCanvas.Polygon(p);
+  end;
+
+  procedure TBoid.Flock(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+  begin
+    //TODO: Flock.
+  end;
+
+  procedure TBoid.Align(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+  begin
+    //TODO: Align.
+  end;
+
+  procedure TBoid.Avoid(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+  begin
+    //TODO: Avoid.
+  end;
+
+  procedure TBoid.Predator(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+  begin
+    //TODO: Predator.
+  end;
+
+  procedure TBoid.AdjustVelocity;
+  begin
+    //TODO: AdjustVelocity.
+  end;
+
+  procedure TBoid.MoveForward;
+  begin
+    //TODO: MoveForward.
+  end;
+
+  procedure TBoid.BounceAwayFromWalls;
+  begin
+    //TODO: BounceAwayFromWalls;
+  end;
+
+  procedure TBoid.WrapAround;
+  begin
+    //TODO: WrapAround.
   end;
 
 end.

@@ -1,6 +1,6 @@
 unit PascalBoidsField;
 {$WARN 5024 off : Parameter "$1" not used}
-
+{$WARN 6018 off : unreachable code}
 interface
 
 {$mode objfpc}{$H+}
@@ -11,6 +11,9 @@ uses
 const
   MAXIMUM_BOID_COUNT = 1000;
   DEFAULT_BOID_COUNT = 100;
+
+  BOUNCE_OFF_WALLS = true;
+  WRAP_AROUND_EDGES = false;
 
   //TODO: Add hawk predator count.
 
@@ -75,45 +78,54 @@ implementation
   procedure TPascalBoidsField.Iterate;
   var
     i: Integer;
-    j: Integer;
-    ai: TBoid;
-    aj: TBoid;
+    bi: TBoid;
   begin
     //TODO: Implement rules iteration per https://swharden.com/csdv/simulations/boids/
 
+(*
+    // update void speed and direction (velocity) based on rules
+    foreach (var boid in Boids)
+    {
+        (double flockXvel, double flockYvel) = Flock(boid, 50, .0003);
+        (double alignXvel, double alignYvel) = Align(boid, 50, .01);
+        (double avoidXvel, double avoidYvel) = Avoid(boid, 20, .001);
+        (double predXvel, double predYval) = Predator(boid, 150, .00005);
+        boid.Xvel += flockXvel + avoidXvel + alignXvel + predXvel;
+        boid.Yvel += flockYvel + avoidYvel + alignYvel + predYval;
+    }
+
+    // move all boids forward in time
+    foreach (var boid in Boids)
+    {
+        boid.MoveForward();
+        if (bounceOffWalls)
+            BounceOffWalls(boid);
+        if (wrapAroundEdges)
+            WrapAround(boid);
+    }
+*)
     for i := 1 to InitialBoidCount do begin
-      ai := Boids[i];
-      if (ai.IsActive) then begin
-        for j := 1 to InitialBoidCount do begin
-          aj := Boids[j];
-          if ((i <> j) and aj.IsActive) then begin
-            if (ai.MergeIfAdjacent(aj)) then begin
-              Dec(ActiveBoidCount);
-            end;
-          end;
-        end;
+      bi := Boids[i];
+      if (bi.IsActive) then begin
+        bi := Boids[i];
+        bi.Flock(Boids, 50, 0.0003);
+        bi.Align(Boids, 50, 0.01);
+        bi.Avoid(Boids, 20, 0.001);
+        bi.Predator(Boids, 150, 0.00005);
+        bi.AdjustVelocity;
       end;
     end;
 
     for i := 1 to InitialBoidCount do begin
-      ai := Boids[i];
-      if (ai.IsActive) then begin
-        ai.AccelerationX := 0.0;
-        ai.AccelerationY := 0.0;
-
-        for j := 1 to InitialBoidCount do begin
-          aj := Boids[j];
-          if ((i <> j) and aj.IsActive) then begin
-            ai.Accelerate(aj);
-          end;
+      bi := Boids[i];
+      if (bi.IsActive) then begin
+        bi.MoveForward;
+        if (BOUNCE_OFF_WALLS) then begin
+            bi.BounceAwayFromWalls;
         end;
-      end;
-    end;
-
-    for i := 1 to InitialBoidCount do begin
-      ai := Boids[i];
-      if (ai.IsActive) then begin
-        ai.Move;
+        if (WRAP_AROUND_EDGES) then begin
+            bi.WrapAround;
+        end;
       end;
     end;
   end;
@@ -161,6 +173,8 @@ implementation
     i: Integer;
     ai: TBoid;
   begin
+    //TODO: Support creation of Hawk predators.
+
     reactivatedBoid := false;
 
     for i := 1 to InitialBoidCount do begin
@@ -192,6 +206,7 @@ implementation
     truncX: Integer;
     truncY: Integer;
   begin
+    //TODO: Left click adds regular Boid; right click adds Hawk.
     truncX := Trunc(X);
     truncY := Trunc(Y);
 
