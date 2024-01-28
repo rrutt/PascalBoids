@@ -12,6 +12,8 @@ const
   MAXIMUM_BOID_COUNT = 1000;
   DEFAULT_BOID_COUNT = 100;
 
+  //TODO: Add hawk predator count.
+
 type
   TPascalBoidsField = class(TCustomControl)
     private
@@ -77,6 +79,8 @@ implementation
     ai: TBoid;
     aj: TBoid;
   begin
+    //TODO: Implement rules iteration per https://swharden.com/csdv/simulations/boids/
+
     for i := 1 to InitialBoidCount do begin
       ai := Boids[i];
       if (ai.IsActive) then begin
@@ -136,8 +140,6 @@ implementation
       Bitmap.Canvas.Brush.Color := clAqua;
       Bitmap.Canvas.FillRect(0, 0, Width, Height);
 
-      Bitmap.Canvas.Pen.Color := clWhite;
-      Bitmap.Canvas.Brush.Color := clWhite;
       for i := 1 to InitialBoidCount do begin
         a := Boids[i];
         if (a.IsActive) then begin

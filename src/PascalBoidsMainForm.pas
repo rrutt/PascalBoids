@@ -56,6 +56,8 @@ begin
   SpinEditBoidCount.MaxValue := MAXIMUM_Boid_COUNT;
   SpinEditBoidCount.Value := DEFAULT_Boid_COUNT;
 
+  //TODO: Add SpinEditHawkCount control.
+
   Field := TPascalBoidsField.Create(Self);
   ResizeField;
 

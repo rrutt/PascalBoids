@@ -21,6 +21,8 @@ type
       AccelerationX: Single;
       AccelerationY: Single;
 
+      //TODO: Add Boolean IsHawk.
+
       procedure Clear;
       procedure Randomize(const Width: Integer; const Height: Integer);
       procedure Initialize(const newX: Integer; const newY: Integer);
@@ -180,6 +182,10 @@ implementation
         p[4].Y := truncy + 0; p[4].X := truncX + 0;
       end;
     end;
+
+    //TODO: Use different color if IsHawk.
+    TheCanvas.Pen.Color := clWhite;
+    TheCanvas.Brush.Color := clWhite;
 
     TheCanvas.Polygon(p);
   end;
