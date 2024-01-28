@@ -1,17 +1,16 @@
 unit PascalBoidsField;
+{$WARN 5024 off : Parameter "$1" not used}
 
 interface
 
 {$mode objfpc}{$H+}
 
 uses
-  Classes, SysUtils, Controls, Dialogs, Graphics, LCLType, Math,
-  Boid;
+  Classes, SysUtils, Controls, Dialogs, Graphics, LCLType, Boid;
 
 const
-  MAXIMUM_BOID_COUNT = 10000;
-  DEFAULT_BOID_COUNT = 10;
-  ZOOM_DIVISOR = 120;
+  MAXIMUM_BOID_COUNT = 1000;
+  DEFAULT_BOID_COUNT = 100;
 
 type
   TPascalBoidsField = class(TCustomControl)
@@ -19,10 +18,6 @@ type
       InitialBoidCount: Integer;
       CenterX: Integer;
       CenterY: Integer;
-      ViewOffsetX: Integer;
-      ViewOffsetY: Integer;
-      ZoomFactor: Integer;
-      InverseZoom: Single;
 
     public
       ActiveBoidCount: Integer;
@@ -35,8 +30,6 @@ type
       procedure AddNewBoid(const X: Integer; const Y: Integer);
       procedure MouseDown(Sender: TObject; Button: TMouseButton;
         {%H-}Shift: TShiftState; X, Y: Integer); overload;
-      Procedure MouseWheel(Sender: TObject; {%H-}Shift: TShiftState;
-        WheelDelta: Integer; {%H-}MousePos: TPoint; var {%H-}Handled: Boolean);
   end;
 
 implementation
@@ -54,12 +47,6 @@ implementation
     CenterX := Width div 2;
     CenterY := Height div 2;
 
-    ViewOffsetX := 0;
-    ViewOffsetY := 0;
-
-    ZoomFactor := 1;
-    InverseZoom := 1.0 / ZoomFactor;
-
     for i := 1 to MAXIMUM_BOID_COUNT do begin
       a := TBoid.Create;
       Boids[i] := a;
@@ -68,7 +55,6 @@ implementation
     ActiveBoidCount := 0;
 
     OnMouseDown := @MouseDown;
-    OnMouseWheel := @MouseWheel;
   end;
 
   procedure TPascalBoidsField.Randomize(const BoidCount: Integer);
@@ -76,9 +62,6 @@ implementation
     i: Integer;
   begin
     InitialBoidCount := BoidCount;
-
-    ViewOffsetX := CenterX;
-    ViewOffsetY := CenterY;
 
     for i := 1 to InitialBoidCount do begin
       Boids[i].Randomize(Width, Height);
@@ -204,33 +187,13 @@ implementation
   procedure TPascalBoidsField.MouseDown(Sender: TObject;
     Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
   var
-    offsetX: Integer;
-    offsetY: Integer;
-    newX: Integer;
-    newY: Integer;
+    truncX: Integer;
+    truncY: Integer;
   begin
-    offsetX := CenterX - X;
-    offsetY := CenterY - Y;
+    truncX := Trunc(X);
+    truncY := Trunc(Y);
 
-    if (Button = mbLeft) then begin
-      { Re-center the space on the clicked point. }
-      ViewOffsetX := ViewOffsetX + offsetX;
-      ViewOffsetY := ViewOffsetY + offsetY;
-    end else if (Button = mbRight) then begin
-      newX := Trunc((X - ViewOffsetX) * ZoomFactor);
-      newY := Trunc((Y - ViewOffsetY) * ZoomFactor);
-
-      AddNewBoid(newX, newY);
-    end;
-
-    Paint;
-  end;
-
-  Procedure TPascalBoidsField.MouseWheel(Sender: TObject; Shift: TShiftState;
-    WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
-  begin
-    ZoomFactor := Max(ZoomFactor - (WheelDelta div ZOOM_DIVISOR), 1);
-    InverseZoom := 1.0 / ZoomFactor;
+    AddNewBoid(truncX, truncY);
 
     Paint;
   end;

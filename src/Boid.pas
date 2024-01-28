@@ -54,8 +54,8 @@ implementation
   begin
     Clear();
 
-    X := 1.0 + Random(Width - 1) - (Width div 2);
-    Y := 1.0 + Random(Height - 1) - (Height div 2);
+    X := 1.0 + Random(Width - 1);
+    Y := 1.0 + Random(Height - 1);
 
     IsActive := true;
   end;
