@@ -20,19 +20,18 @@ const
 type
   TPascalBoidsField = class(TCustomControl)
     private
-      InitialBoidCount: Integer;
       CenterX: Integer;
       CenterY: Integer;
 
     public
-      ActiveBoidCount: Integer;
+      CurrentBoidCount: Integer;
 
       procedure Initialize;
       procedure Randomize(const BoidCount: Integer);
       procedure Iterate;
       procedure EraseBackground({%H-}DC: HDC); override;
       procedure Paint; override;
-      procedure AddNewBoid(const X: Integer; const Y: Integer);
+      procedure AddNewBoid(const X: Integer; const Y: Integer; const MakeHawk: Boolean);
       procedure MouseDown(Sender: TObject; Button: TMouseButton;
         {%H-}Shift: TShiftState; X, Y: Integer); overload;
   end;
@@ -45,19 +44,17 @@ implementation
   procedure TPascalBoidsField.Initialize;
   var
     i: Integer;
-    a: TBoid;
+    bi: TBoid;
   begin
-    InitialBoidCount := MAXIMUM_BOID_COUNT;
+    CurrentBoidCount := DEFAULT_BOID_COUNT;
 
     CenterX := Width div 2;
     CenterY := Height div 2;
 
     for i := 1 to MAXIMUM_BOID_COUNT do begin
-      a := TBoid.Create;
-      Boids[i] := a;
+      bi := TBoid.Create;
+      Boids[i] := bi;
     end;
-
-    ActiveBoidCount := 0;
 
     OnMouseDown := @MouseDown;
   end;
@@ -65,14 +62,14 @@ implementation
   procedure TPascalBoidsField.Randomize(const BoidCount: Integer);
   var
     i: Integer;
+    bi: TBoid;
   begin
-    InitialBoidCount := BoidCount;
+    CurrentBoidCount := BoidCount;
 
-    for i := 1 to InitialBoidCount do begin
-      Boids[i].Randomize(Width, Height);
+    for i := 1 to CurrentBoidCount do begin
+      bi := Boids[i];
+      bi.Randomize(Width, Height);
     end;
-
-    ActiveBoidCount := InitialBoidCount;
   end;
 
   procedure TPascalBoidsField.Iterate;
@@ -80,52 +77,24 @@ implementation
     i: Integer;
     bi: TBoid;
   begin
-    //TODO: Implement rules iteration per https://swharden.com/csdv/simulations/boids/
-
-(*
-    // update void speed and direction (velocity) based on rules
-    foreach (var boid in Boids)
-    {
-        (double flockXvel, double flockYvel) = Flock(boid, 50, .0003);
-        (double alignXvel, double alignYvel) = Align(boid, 50, .01);
-        (double avoidXvel, double avoidYvel) = Avoid(boid, 20, .001);
-        (double predXvel, double predYval) = Predator(boid, 150, .00005);
-        boid.Xvel += flockXvel + avoidXvel + alignXvel + predXvel;
-        boid.Yvel += flockYvel + avoidYvel + alignYvel + predYval;
-    }
-
-    // move all boids forward in time
-    foreach (var boid in Boids)
-    {
-        boid.MoveForward();
-        if (bounceOffWalls)
-            BounceOffWalls(boid);
-        if (wrapAroundEdges)
-            WrapAround(boid);
-    }
-*)
-    for i := 1 to InitialBoidCount do begin
+    for i := 1 to CurrentBoidCount do begin
       bi := Boids[i];
-      if (bi.IsActive) then begin
-        bi := Boids[i];
-        bi.Flock(Boids, 50, 0.0003);
-        bi.Align(Boids, 50, 0.01);
-        bi.Avoid(Boids, 20, 0.001);
-        bi.Predator(Boids, 150, 0.00005);
-        bi.AdjustVelocity;
-      end;
+      bi := Boids[i];
+      bi.Flock(Boids, 50, 0.0003);
+      bi.Align(Boids, 50, 0.01);
+      bi.Avoid(Boids, 20, 0.001);
+      bi.Predator(Boids, 150, 0.00005);
+      bi.AdjustVelocity;
     end;
 
-    for i := 1 to InitialBoidCount do begin
+    for i := 1 to CurrentBoidCount do begin
       bi := Boids[i];
-      if (bi.IsActive) then begin
-        bi.MoveForward;
-        if (BOUNCE_OFF_WALLS) then begin
-            bi.BounceAwayFromWalls;
-        end;
-        if (WRAP_AROUND_EDGES) then begin
-            bi.WrapAround;
-        end;
+      bi.MoveForward;
+      if (BOUNCE_OFF_WALLS) then begin
+          bi.BounceAwayFromWalls;
+      end;
+      if (WRAP_AROUND_EDGES) then begin
+          bi.WrapAround;
       end;
     end;
   end;
@@ -139,7 +108,7 @@ implementation
   procedure TPascalBoidsField.Paint;
   var
     i: Integer;
-    a: TBoid;
+    bi: TBoid;
     Bitmap: TBitmap;
   begin
     Bitmap := TBitmap.Create;
@@ -152,11 +121,9 @@ implementation
       Bitmap.Canvas.Brush.Color := clAqua;
       Bitmap.Canvas.FillRect(0, 0, Width, Height);
 
-      for i := 1 to InitialBoidCount do begin
-        a := Boids[i];
-        if (a.IsActive) then begin
-          a.Paint(Bitmap.Canvas);
-        end;
+      for i := 1 to CurrentBoidCount do begin
+        bi := Boids[i];
+        bi.Paint(Bitmap.Canvas);
       end;
 
       Canvas.Draw(0, 0, Bitmap);
@@ -167,36 +134,21 @@ implementation
     inherited Paint;
   end;
 
-  procedure TPascalBoidsField.AddNewBoid(const X: Integer; const Y: Integer);
+  procedure TPascalBoidsField.AddNewBoid(const X: Integer; const Y: Integer; const MakeHawk: Boolean);
   var
-    reactivatedBoid: Boolean;
     i: Integer;
-    ai: TBoid;
+    bi: TBoid;
   begin
     //TODO: Support creation of Hawk predators.
 
-    reactivatedBoid := false;
-
-    for i := 1 to InitialBoidCount do begin
-      ai := Boids[i];
-      if (not reactivatedBoid) and (not ai.IsActive) then begin
-        ai.Initialize(X, Y);
-        Inc(ActiveBoidCount);
-        reactivatedBoid := true;
-      end;
-    end;
-
-    if (not reactivatedBoid) then begin
-      if (InitialBoidCount < MAXIMUM_BOID_COUNT) then begin
-        i := InitialBoidCount + 1;
-        ai := Boids[i];
-        ai.Initialize(X, Y);
-
-        Inc(InitialBoidCount);
-        Inc(ActiveBoidCount);
-      end else begin
-        ShowMessage(Format('The maximum number of Boid slots (%d) has been reached.', [MAXIMUM_BOID_COUNT]));
-      end;
+    if (CurrentBoidCount < MAXIMUM_BOID_COUNT) then begin
+      Inc(CurrentBoidCount);
+      i := CurrentBoidCount;
+      bi := Boids[i];
+      bi.Initialize(X, Y);
+      bi.IsHawk := MakeHawk;
+    end else begin
+      ShowMessage(Format('The maximum number of Boid slots (%d) has been reached.', [MAXIMUM_BOID_COUNT]));
     end;
   end;
 
@@ -205,12 +157,15 @@ implementation
   var
     truncX: Integer;
     truncY: Integer;
+    makeHawk: Boolean;
   begin
-    //TODO: Left click adds regular Boid; right click adds Hawk.
+    // Left click adds regular Boid; right click adds Hawk.
+    makeHawk := (Button = mbRight);
+
     truncX := Trunc(X);
     truncY := Trunc(Y);
 
-    AddNewBoid(truncX, truncY);
+    AddNewBoid(truncX, truncY, makeHawk);
 
     Paint;
   end;

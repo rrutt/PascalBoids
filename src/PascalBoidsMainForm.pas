@@ -53,15 +53,15 @@ begin
 
   SpinEditBoidCount.MinValue := 1;
   SpinEditBoidCount.Increment := 5;
-  SpinEditBoidCount.MaxValue := MAXIMUM_Boid_COUNT;
-  SpinEditBoidCount.Value := DEFAULT_Boid_COUNT;
+  SpinEditBoidCount.MaxValue := MAXIMUM_BOID_COUNT;
+  SpinEditBoidCount.Value := DEFAULT_BOID_COUNT;
 
   //TODO: Add SpinEditHawkCount control.
 
   Field := TPascalBoidsField.Create(Self);
   ResizeField;
 
-  LabelBoidCount.Caption := Format('%d', [Field.ActiveBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount]);
 end;
 
 procedure TPascalBoidsMainForm.ResizeField;
@@ -87,12 +87,9 @@ begin
   Field.Iterate;
   Field.Paint;
 
-  LabelBoidCount.Caption := Format('%d', [Field.ActiveBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount]);
 
-  // Reenable the timer if more than one Boid remains.
-  if (Field.ActiveBoidCount > 1) then begin
-    Timer1.Enabled := true;
-  end;
+  Timer1.Enabled := true;
 end;
 
 procedure TPascalBoidsMainForm.ButtonRandomizeClick(Sender: TObject);
@@ -104,7 +101,7 @@ begin
   Field.Randomize(SpinEditBoidCount.Value);
   Field.Paint;
 
-  LabelBoidCount.Caption := Format('%d', [Field.ActiveBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount]);
 
   ButtonRandomize.Enabled := true;
   ButtonStart.Enabled := true;
@@ -138,7 +135,7 @@ begin
   Field.Iterate;
   Field.Paint;
 
-  LabelBoidCount.Caption := Format('%d', [Field.ActiveBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount]);
 end;
 
 end.

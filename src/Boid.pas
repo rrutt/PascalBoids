@@ -11,13 +11,11 @@ type
   TBoid = Class
     private
     public
-      IsActive: Boolean;
+      IsHawk: Boolean;
       X: Single;
       Y: Single;
       VelocityX: Single;
       VelocityY: Single;
-
-      //TODO: Add Boolean IsHawk.
 
       procedure Clear;
       procedure Randomize(const Width: Integer; const Height: Integer);
@@ -37,7 +35,7 @@ implementation
 
   procedure TBoid.Clear;
   begin
-    IsActive := false;
+    IsHawk := false;;
 
     VelocityX := 0.0;
     VelocityY := 0.0;
@@ -50,7 +48,7 @@ implementation
     X := 1.0 + Random(Width - 1);
     Y := 1.0 + Random(Height - 1);
 
-    IsActive := true;
+    IsHawk := false;
   end;
 
   procedure TBoid.Initialize(const newX: Integer; const newY: Integer);
@@ -60,7 +58,7 @@ implementation
     X := newX;
     Y := newY;
 
-    IsActive := true;
+    IsHawk := false;
   end;
 
   procedure TBoid.Paint(const TheCanvas: TCanvas);
@@ -102,9 +100,13 @@ implementation
       end;
     end;
 
-    //TODO: Use different color if IsHawk.
-    TheCanvas.Pen.Color := clWhite;
-    TheCanvas.Brush.Color := clWhite;
+    if (IsHawk) then begin
+      TheCanvas.Pen.Color := clMaroon;
+      TheCanvas.Brush.Color := clMaroon;
+    end else begin
+      TheCanvas.Pen.Color := clWhite;
+      TheCanvas.Brush.Color := clWhite;
+    end;
 
     TheCanvas.Polygon(p);
   end;
