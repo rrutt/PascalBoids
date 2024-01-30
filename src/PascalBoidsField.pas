@@ -74,14 +74,22 @@ implementation
   var
     i: Integer;
     bi: TBoid;
+    avoidHawk: Boolean;
   begin
     //TODO: Add dialog controls to adjust rule Distance and Power parameters.
     for i := 1 to CurrentBoidCount do begin
       bi := Boids[i];
+
       bi.Flock(Boids, i, CurrentBoidCount, 50, 0.0003);
+
       bi.Align(Boids, i, CurrentBoidCount, 50, 0.01);
-      bi.Avoid(Boids, i, CurrentBoidCount, 20, 0.001);
-      bi.Predator(Boids, i, CurrentBoidCount, 150, 0.00005);
+
+      avoidHawk := false;
+      bi.Avoid(avoidHawk, Boids, i, CurrentBoidCount, 20, 0.001);
+
+      avoidHawk := true;
+      bi.Avoid(avoidHawk, Boids, i, CurrentBoidCount, 150, 0.00005);
+
       bi.AdjustVelocity;
     end;
 

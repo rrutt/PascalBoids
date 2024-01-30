@@ -32,8 +32,7 @@ type
       procedure Paint(const TheCanvas: TCanvas);
       procedure Flock(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
       procedure Align(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
-      procedure Avoid(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
-      procedure Predator(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+      procedure Avoid(const AvoidHawk: Boolean; const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
       procedure AdjustVelocity;
       procedure MoveForward;
       procedure BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Single);
@@ -200,13 +199,21 @@ implementation
     bi.AlignY := 0;
   end;
 
-  procedure TBoid.Avoid(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+  procedure TBoid.Avoid(const AvoidHawk: Boolean; const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
   var
+    distanceThresholdSquared: Single;
+    distanceSquared: Single;
+    distanceX: Single;
+    distanceY: Single;
+    closeness: Single;
+    sumClosenessX: Single;
+    sumClosenessY: Single;
     i: Integer;
+    j: Integer;
     bi: Tboid;
+    bj: TBoid;
   begin
     // Steer Away from Extremely Close Boids.
-    //TODO: Avoid.
     (*
         var neighbors = Boids.Where(x => x.GetDistance(boid) < distance);
         (double sumClosenessX, double sumClosenessY) = (0, 0);
@@ -223,35 +230,27 @@ implementation
 
     bi.AvoidX := 0;
     bi.AvoidY := 0;
-  end;
 
-  procedure TBoid.Predator(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
-  var
-    i: Integer;
-    bi: Tboid;
-  begin
-    // Avoid Predators.
-    //TODO: Predator.
-    (*
-        (double sumClosenessX, double sumClosenessY) = (0, 0);
-        for (int i = 0; i < PredatorCount; i++)
-        {
-            Boid predator = Boids[i];
-            double distanceAway = boid.GetDistance(predator);
-            if (distanceAway < distance)
-            {
-                double closeness = distance - distanceAway;
-                sumClosenessX += (boid.X - predator.X) * closeness;
-                sumClosenessY += (boid.Y - predator.Y) * closeness;
-            }
-        }
-        return (sumClosenessX * power, sumClosenessY * power);
-    *)
-    i := SelfIndex;
-    bi := Boids[i];
+    distanceThresholdSquared := DistanceThreshold * DistanceThreshold;
+    sumClosenessX := 0.0;
+    sumClosenessY := 0.0;
 
-    bi.PredatorX := 0;
-    bi.PredatorY := 0;
+    for j := 1 to BoidCount do begin
+      bj := Boids[j];
+      if ((j <> i) and (AvoidHawk = bj.IsHawk)) then begin
+        distanceX := bj.X - bi.X;
+        distanceY := bj.Y - bi.Y;
+        distanceSquared := (distanceX * distanceX) + (distanceY * distanceY);
+        if (distanceSquared < distanceThresholdSquared) then begin
+          closeness := DistanceThreshold - Sqrt(distanceSquared);
+          sumClosenessX := (bi.X - bj.X) * closeness;
+          sumClosenessY := (bi.Y - bj.Y) * closeness;
+        end;
+      end;
+    end;
+
+    bi.AvoidX := sumClosenessX * Power;
+    bi.AvoidY := sumClosenessY * Power;
   end;
 
   procedure TBoid.AdjustVelocity;
@@ -285,10 +284,10 @@ implementation
             Yvel = 0;
     *)
 
+    //TODO: Add minimum & maximum speed to MoveForward.
+
     X := X + VelocityX;
     Y := Y + VelocityY;
-
-    //TODO: Add minimum & maximum speed to MoveForward.
   end;
 
   procedure TBoid.BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Single);
