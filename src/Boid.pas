@@ -30,10 +30,10 @@ type
       procedure Randomize(const Width: Integer; const Height: Integer);
       procedure Initialize(const newX: Integer; const newY: Integer);
       procedure Paint(const TheCanvas: TCanvas);
-      procedure Flock(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
-      procedure Align(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
-      procedure Avoid(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
-      procedure Predator(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
+      procedure Flock(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+      procedure Align(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+      procedure Avoid(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+      procedure Predator(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
       procedure AdjustVelocity;
       procedure MoveForward;
       procedure BounceAwayFromWalls;
@@ -120,8 +120,9 @@ implementation
     TheCanvas.Polygon(p);
   end;
 
-  procedure TBoid.Flock(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
+  procedure TBoid.Flock(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
   var
+    distanceThresholdSquared: Single;
     distanceSquared: Single;
     neighborCount: Integer;
     distanceX: Single;
@@ -130,9 +131,12 @@ implementation
     sumY: Single;
     meanX: Single;
     meanY: Single;
+    i: Integer;
     j: Integer;
+    bi: Tboid;
     bj: TBoid;
   begin
+
     (*
         var neighbors = Boids.Where(x => x.GetDistance(boid) < distance);
         double meanX = neighbors.Sum(x => x.X) / neighbors.Count();
@@ -141,54 +145,64 @@ implementation
         double deltaCenterY = meanY - boid.Y;
         return (deltaCenterX * power, deltaCenterY * power);
     *)
-    distanceSquared := Distance * Distance;
+    FlockX := 0;
+    FlockY := 0;
+
+    distanceThresholdSquared := DistanceThreshold * DistanceThreshold;
     sumX := 0.0;
     sumY := 0.0;
 
+    i := SelfIndex;
+    bi := Boids[i];
+
     neighborCount := 0;
-    for j := 1 to boidCount do begin
+    for j := 1 to BoidCount do begin
       bj := Boids[j];
-      distanceX := bj.X - X;
-      distanceY := bj.Y - Y;
-      if (((distanceX * distanceX) + (distanceY * distanceY)) < distanceSquared) then begin
-        sumX := sumX + bj.X;
-        sumY := sumY + bj.Y;
-        Inc(neighborCount);
+      if ((j <> i) and (not bj.IsHawk)) then begin
+        distanceX := bj.X - bi.X;
+        distanceY := bj.Y - bi.Y;
+        distanceSquared := (distanceX * distanceX) + (distanceY * distanceY);
+        if (distanceSquared < distanceThresholdSquared) then begin
+          Inc(neighborCount);
+          sumX := sumX + bj.X;
+          sumY := sumY + bj.Y;
+        end;
       end;
     end;
 
     if (neighborCount > 0) then begin
       meanX := sumX / neighborCount;
       meanY := sumY / neighborCount;
-    end else begin
-      meanX := X;
-      meanY := Y;
+      FlockX := (meanX - X) * Power;
+      FlockY := (meanY - Y) * Power;
     end;
-
-    FlockX := (meanX - X) * Power;
-    FlockY := (meanY - Y) * Power;
   end;
 
-  procedure TBoid.Align(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
+  procedure TBoid.Align(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
   begin
     //TODO: Align.
+    AlignX := 0;
+    AlignY := 0;
   end;
 
-  procedure TBoid.Avoid(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
+  procedure TBoid.Avoid(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
   begin
     //TODO: Avoid.
+    AvoidX := 0;
+    AvoidY := 0;
   end;
 
-  procedure TBoid.Predator(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
+  procedure TBoid.Predator(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
   begin
     //TODO: Predator.
+    PredatorX := 0;
+    PredatorY := 0;
   end;
 
   procedure TBoid.AdjustVelocity;
   begin
-    //TODO: Add other rule velocities in AdjustVelocity.
-    VelocityX := VelocityX + FlockX;
-    VelocityY := VelocityY + FlockY;
+    VelocityX := VelocityX + FlockX + AlignX + AvoidX + PredatorX;
+    VelocityY := VelocityY + FlockY + AlignY + AvoidY + PredatorY;
   end;
 
   procedure TBoid.MoveForward;
