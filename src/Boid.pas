@@ -17,8 +17,8 @@ type
       AlignY: Single;
       AvoidX: Single;
       AvoidY: Single;
-      PredatorX: Single;
-      PredatorY: Single;
+      AvoidHawkX: Single;
+      AvoidHawkY: Single;
     public
       IsHawk: Boolean;
       X: Single;
@@ -28,13 +28,13 @@ type
 
       procedure Clear;
       procedure Randomize(const Width: Integer; const Height: Integer);
-      procedure Initialize(const newX: Integer; const newY: Integer);
+      procedure Initialize(const NewX: Single; const NewY: Single);
       procedure Paint(const TheCanvas: TCanvas);
       procedure Flock(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
       procedure Align(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
       procedure Avoid(const AvoidHawk: Boolean; const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
       procedure AdjustVelocity;
-      procedure MoveForward;
+      procedure MoveForward(const MinSpeed: Single; const MaxSpeed: Single);
       procedure BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Single);
       procedure WrapAround(const Width: Integer; const Height: Integer);
   end;
@@ -50,21 +50,27 @@ implementation
   end;
 
   procedure TBoid.Randomize(const Width: Integer; const Height: Integer);
+  var
+    randomX: Single;
+    randomY: Single;
   begin
     Clear();
 
-    X := 1.0 + Random(Width - 1);
-    Y := 1.0 + Random(Height - 1);
+    randomX := 1.0 + Random(Width - 1);
+    randomY := 1.0 + Random(Height - 1);
+
+    X := randomX;
+    Y := randomY;
 
     IsHawk := false;
   end;
 
-  procedure TBoid.Initialize(const newX: Integer; const newY: Integer);
+  procedure TBoid.Initialize(const NewX: Single; const NewY: Single);
   begin
     Clear();
 
-    X := newX;
-    Y := newY;
+    X := NewX;
+    Y := NewY;
 
     IsHawk := false;
   end;
@@ -212,6 +218,12 @@ implementation
     j: Integer;
     bi: Tboid;
     bj: TBoid;
+    biIsHawk: Boolean;
+    bjIsHawk: Boolean;
+    ix: Single;
+    iy: Single;
+    jx: Single;
+    jy: Single;
   begin
     // Steer Away from Extremely Close Boids.
     (*
@@ -227,39 +239,55 @@ implementation
     *)
     i := SelfIndex;
     bi := Boids[i];
-
-    bi.AvoidX := 0;
-    bi.AvoidY := 0;
+    biIsHawk := bi.IsHawk;
 
     distanceThresholdSquared := DistanceThreshold * DistanceThreshold;
     sumClosenessX := 0.0;
     sumClosenessY := 0.0;
 
-    for j := 1 to BoidCount do begin
-      bj := Boids[j];
-      if ((j <> i) and (AvoidHawk = bj.IsHawk)) then begin
-        distanceX := bj.X - bi.X;
-        distanceY := bj.Y - bi.Y;
+    if (not biIsHawk) then begin
+      for j := 1 to BoidCount do begin
+        bj := Boids[j];
+        bjIsHawk := bj.IsHawk;
+
+        ix := bi.X;
+        iy := bi.Y;
+
+        jx := bj.X;
+        jy := bj.Y;
+
+        distanceX := jx - ix;
+        distanceY := jy - iy;
+
         distanceSquared := (distanceX * distanceX) + (distanceY * distanceY);
-        if (distanceSquared < distanceThresholdSquared) then begin
-          closeness := DistanceThreshold - Sqrt(distanceSquared);
-          sumClosenessX := (bi.X - bj.X) * closeness;
-          sumClosenessY := (bi.Y - bj.Y) * closeness;
+        if ((j <> i) and (AvoidHawk = bjIsHawk)) then begin
+          if (distanceSquared < distanceThresholdSquared) then begin
+            closeness := DistanceThreshold - Sqrt(distanceSquared);
+            sumClosenessX := (bi.X - bj.X) * closeness;
+            sumClosenessY := (bi.Y - bj.Y) * closeness;
+          end;
         end;
       end;
     end;
 
-    bi.AvoidX := sumClosenessX * Power;
-    bi.AvoidY := sumClosenessY * Power;
+    if (AvoidHawk) then begin
+      bi.AvoidHawkX := sumClosenessX * Power;
+      bi.AvoidHawkY := sumClosenessY * Power;
+    end else begin
+      bi.AvoidX := sumClosenessX * Power;
+      bi.AvoidY := sumClosenessY * Power;
+    end;
   end;
 
   procedure TBoid.AdjustVelocity;
   begin
-    VelocityX := VelocityX + FlockX + AlignX + AvoidX + PredatorX;
-    VelocityY := VelocityY + FlockY + AlignY + AvoidY + PredatorY;
+    VelocityX := VelocityX + FlockX + AlignX + AvoidX + AvoidHawkX;
+    VelocityY := VelocityY + FlockY + AlignY + AvoidY + AvoidHawkY;
   end;
 
-  procedure TBoid.MoveForward;
+  procedure TBoid.MoveForward(const MinSpeed: Single; const MaxSpeed: Single);
+  var
+    speed: Single;
   begin
     // Speed Limit.
     (*
@@ -288,6 +316,15 @@ implementation
 
     X := X + VelocityX;
     Y := Y + VelocityY;
+
+    speed := Sqrt((VelocityX * VelocityX) + (VelocityY * VelocityY));
+    if (speed > MaxSpeed) then begin
+      VelocityX := (VelocityX / speed) * MaxSpeed;
+      VelocityY := (VelocityY / speed) * MaxSpeed;
+    end else if ((speed < minSpeed) and (speed > 0.0)) then begin
+      VelocityX := (VelocityX / speed) * MinSpeed;
+      VelocityY := (VelocityY / speed) * MinSpeed;
+    end;
   end;
 
   procedure TBoid.BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Single);

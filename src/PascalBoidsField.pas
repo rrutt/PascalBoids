@@ -51,6 +51,7 @@ implementation
 
     for i := 1 to MAXIMUM_BOID_COUNT do begin
       bi := TBoid.Create;
+      bi.Randomize(Width, Height);
       Boids[i] := bi;
     end;
 
@@ -95,7 +96,7 @@ implementation
 
     for i := 1 to CurrentBoidCount do begin
       bi := Boids[i];
-      bi.MoveForward;
+      bi.MoveForward(1.0, 5.0);
       if (BOUNCE_OFF_WALLS) then begin
         bi.BounceAwayFromWalls(Width, Height, 20.0);
       end else begin

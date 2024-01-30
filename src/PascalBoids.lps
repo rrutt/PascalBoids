@@ -4,7 +4,7 @@
     <PathDelim Value="\"/>
     <Version Value="11"/>
     <BuildModes Active="Default"/>
-    <Units Count="5">
+    <Units Count="6">
       <Unit0>
         <Filename Value="PascalBoids.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -29,8 +29,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="67"/>
-        <CursorPos X="14" Y="77"/>
+        <TopLine Value="84"/>
+        <CursorPos X="31" Y="99"/>
         <UsageCount Value="225"/>
         <Loaded Value="True"/>
       </Unit2>
@@ -38,8 +38,8 @@
         <Filename Value="Boid.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="224"/>
-        <CursorPos X="34" Y="240"/>
+        <TopLine Value="299"/>
+        <CursorPos Y="327"/>
         <UsageCount Value="222"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -51,126 +51,134 @@
         <CursorPos X="14" Y="1750"/>
         <UsageCount Value="9"/>
       </Unit4>
+      <Unit5>
+        <Filename Value="D:\FreePascal\lazarus\fpc\3.2.0\source\rtl\inc\objpas.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="313"/>
+        <CursorPos Y="332"/>
+        <UsageCount Value="10"/>
+      </Unit5>
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="PascalBoidsField.pas"/>
-        <Caret Line="84" TopLine="73"/>
+        <Filename Value="Boid.pas"/>
+        <Caret Line="276" TopLine="261"/>
       </Position1>
       <Position2>
         <Filename Value="Boid.pas"/>
-        <Caret Line="160" Column="38" TopLine="154"/>
+        <Caret Line="273" TopLine="261"/>
       </Position2>
       <Position3>
-        <Filename Value="Boid.pas"/>
-        <Caret Line="33" Column="93" TopLine="15"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="94" TopLine="79"/>
       </Position3>
       <Position4>
-        <Filename Value="PascalBoidsField.pas"/>
-        <Caret Line="82" Column="22" TopLine="85"/>
+        <Filename Value="Boid.pas"/>
+        <Caret Line="252" TopLine="236"/>
       </Position4>
       <Position5>
-        <Filename Value="PascalBoidsField.pas"/>
-        <Caret Line="51" Column="21" TopLine="28"/>
+        <Filename Value="Boid.pas"/>
+        <Caret Line="276" TopLine="260"/>
       </Position5>
       <Position6>
         <Filename Value="Boid.pas"/>
-        <Caret Line="294" Column="123" TopLine="279"/>
+        <Caret Line="252" TopLine="236"/>
       </Position6>
       <Position7>
         <Filename Value="Boid.pas"/>
-        <Caret Line="39" TopLine="14"/>
+        <Caret Line="263" TopLine="237"/>
       </Position7>
       <Position8>
         <Filename Value="Boid.pas"/>
-        <Caret Line="297" TopLine="293"/>
+        <Caret Line="252" TopLine="237"/>
       </Position8>
       <Position9>
-        <Filename Value="PascalBoidsField.pas"/>
-        <Caret Line="93" Column="27" TopLine="79"/>
+        <Filename Value="Boid.pas"/>
+        <Caret Line="273" TopLine="257"/>
       </Position9>
       <Position10>
         <Filename Value="PascalBoidsField.pas"/>
-        <Caret Line="15" Column="3"/>
+        <Caret Line="94" TopLine="79"/>
       </Position10>
       <Position11>
-        <Filename Value="Boid.pas"/>
-        <Caret Line="323" Column="74" TopLine="308"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="99" TopLine="79"/>
       </Position11>
       <Position12>
         <Filename Value="Boid.pas"/>
-        <Caret Line="40" Column="72" TopLine="14"/>
+        <Caret Line="252" Column="9" TopLine="245"/>
       </Position12>
       <Position13>
-        <Filename Value="Boid.pas"/>
-        <Caret Line="10" Column="48"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="152" TopLine="135"/>
       </Position13>
       <Position14>
         <Filename Value="Boid.pas"/>
-        <Caret Line="39" TopLine="15"/>
+        <Caret Line="75" TopLine="58"/>
       </Position14>
       <Position15>
         <Filename Value="PascalBoidsField.pas"/>
-        <Caret Line="94" Column="53" TopLine="79"/>
+        <Caret Line="152" TopLine="135"/>
       </Position15>
       <Position16>
-        <Filename Value="PascalBoidsField.pas"/>
-        <Caret Line="16"/>
+        <Filename Value="Boid.pas"/>
+        <Caret Line="75" TopLine="58"/>
       </Position16>
       <Position17>
         <Filename Value="Boid.pas"/>
-        <Caret Line="39" TopLine="25"/>
+        <Caret Line="277" TopLine="262"/>
       </Position17>
       <Position18>
         <Filename Value="Boid.pas"/>
-        <Caret Line="326" TopLine="307"/>
+        <Caret Line="274" TopLine="262"/>
       </Position18>
       <Position19>
-        <Filename Value="Boid.pas"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="94" TopLine="79"/>
       </Position19>
       <Position20>
-        <Filename Value="PascalBoidsField.pas"/>
-        <Caret Line="97" Column="19" TopLine="80"/>
+        <Filename Value="Boid.pas"/>
+        <Caret Line="277" TopLine="247"/>
       </Position20>
       <Position21>
         <Filename Value="Boid.pas"/>
-        <Caret Line="349" Column="4" TopLine="319"/>
+        <Caret Line="264" TopLine="247"/>
       </Position21>
       <Position22>
-        <Filename Value="PascalBoidsField.pas"/>
-        <Caret Line="92" Column="48" TopLine="55"/>
+        <Filename Value="Boid.pas"/>
+        <Caret Line="274" TopLine="248"/>
       </Position22>
       <Position23>
-        <Filename Value="Boid.pas"/>
-        <Caret Line="314" TopLine="265"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="94" TopLine="79"/>
       </Position23>
       <Position24>
         <Filename Value="Boid.pas"/>
-        <Caret Line="235" Column="31" TopLine="219"/>
+        <Caret Line="264" TopLine="251"/>
       </Position24>
       <Position25>
-        <Filename Value="Boid.pas"/>
-        <Caret Line="36" Column="30" TopLine="17"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="94" TopLine="79"/>
       </Position25>
       <Position26>
-        <Filename Value="Boid.pas"/>
-        <Caret Line="255" Column="31" TopLine="225"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="152" TopLine="135"/>
       </Position26>
       <Position27>
         <Filename Value="Boid.pas"/>
-        <Caret Line="237" Column="5" TopLine="221"/>
+        <Caret Line="257" TopLine="242"/>
       </Position27>
       <Position28>
         <Filename Value="Boid.pas"/>
-        <Caret Line="203" Column="25" TopLine="194"/>
+        <Caret Line="288" Column="30" TopLine="287"/>
       </Position28>
       <Position29>
         <Filename Value="Boid.pas"/>
-        <Caret Line="36" TopLine="20"/>
+        <Caret Line="37" Column="76" TopLine="14"/>
       </Position29>
       <Position30>
         <Filename Value="Boid.pas"/>
-        <Caret Line="240" Column="34" TopLine="224"/>
+        <Caret Line="327" TopLine="299"/>
       </Position30>
     </JumpHistory>
     <RunParams>
@@ -179,6 +187,15 @@
     </RunParams>
   </ProjectSession>
   <Debugging>
+    <BreakPoints Count="1">
+      <Item1>
+        <Kind Value="bpkSource"/>
+        <WatchScope Value="wpsLocal"/>
+        <WatchKind Value="wpkWrite"/>
+        <Source Value="D:\FreePascal\lazarus\fpc\3.2.0\source\rtl\inc\objpas.inc"/>
+        <Line Value="332"/>
+      </Item1>
+    </BreakPoints>
     <Watches Count="2">
       <Item1>
         <Expression Value="AlignX"/>
