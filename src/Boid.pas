@@ -6,7 +6,7 @@ unit Boid;
 interface
 
 uses
-  Classes, Graphics, Math, SysUtils;
+  Classes, Graphics, SysUtils;
 
 type
   TBoid = Class
@@ -36,8 +36,8 @@ type
       procedure Predator(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
       procedure AdjustVelocity;
       procedure MoveForward;
-      procedure BounceAwayFromWalls;
-      procedure WrapAround;
+      procedure BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Single);
+      procedure WrapAround(const Width: Integer; const Height: Integer);
   end;
 
 implementation
@@ -291,38 +291,38 @@ implementation
     //TODO: Add minimum & maximum speed to MoveForward.
   end;
 
-  procedure TBoid.BounceAwayFromWalls;
+  procedure TBoid.BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Single);
   begin
     // Avoid Edges.
-    //TODO: BounceAwayFromWalls;
-    (*
-        double pad = 50;
-        double turn = .5;
-        if (boid.X < pad)
-            boid.Xvel += turn;
-        if (boid.X > Width - pad)
-            boid.Xvel -= turn;
-        if (boid.Y < pad)
-            boid.Yvel += turn;
-        if (boid.Y > Height - pad)
-            boid.Yvel -= turn;
-    *)
+    if ((X < Pad) and (VelocityX < 0)) then begin
+      VelocityX := -VelocityX;
+    end;
+    if ((X > (Width - Pad)) and (VelocityX > 0)) then begin
+      VelocityX := -VelocityX;
+    end;
+    if ((Y < Pad) and (VelocityY < 0)) then begin
+      VelocityY := -VelocityY;
+    end;
+    if ((Y > (Height - Pad)) and (VelocityY > 0)) then begin
+      VelocityY := -VelocityY;
+    end;
   end;
 
-  procedure TBoid.WrapAround;
+  procedure TBoid.WrapAround(const Width: Integer; const Height: Integer);
   begin
     // Wrap the Universe.
-    //TODO: WrapAround.
-    (*
-        if (boid.X < 0)
-            boid.X += Width;
-        if (boid.X > Width)
-            boid.X -= Width;
-        if (boid.Y < 0)
-            boid.Y += Height;
-        if (boid.Y > Height)
-            boid.Y -= Height;
-    *)
+    if (X < 0) then begin
+      X := X + Width;
+    end;
+    if (X > Width) then begin
+      X := X - Width;
+    end;
+    if (Y < 0) then begin
+      Y := Y + Height;
+    end;
+    if (Y > Height) then begin
+      Y := Y - Height;
+    end;
   end;
 
 end.

@@ -12,10 +12,8 @@ const
   MAXIMUM_BOID_COUNT = 1000;
   DEFAULT_BOID_COUNT = 100;
 
+  //TODO: Add main form checkbox to determine bounce vs. wrap-around.
   BOUNCE_OFF_WALLS = true;
-  WRAP_AROUND_EDGES = false;
-
-  //TODO: Add hawk predator count.
 
 type
   TPascalBoidsField = class(TCustomControl)
@@ -91,10 +89,9 @@ implementation
       bi := Boids[i];
       bi.MoveForward;
       if (BOUNCE_OFF_WALLS) then begin
-          bi.BounceAwayFromWalls;
-      end;
-      if (WRAP_AROUND_EDGES) then begin
-          bi.WrapAround;
+        bi.BounceAwayFromWalls(Width, Height, 20.0);
+      end else begin
+        bi.WrapAround(Width, Height);
       end;
     end;
   end;
