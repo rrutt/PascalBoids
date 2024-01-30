@@ -153,8 +153,8 @@ implementation
     i := SelfIndex;
     bi := Boids[i];
 
-    bi.FlockX := 0;
-    bi.FlockY := 0;
+    bi.FlockX := 0.0;
+    bi.FlockY := 0.0;
 
     distanceThresholdSquared := DistanceThreshold * DistanceThreshold;
     sumX := 0.0;
@@ -185,11 +185,23 @@ implementation
 
   procedure TBoid.Align(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
   var
+    distanceThresholdSquared: Single;
+    distanceSquared: Single;
+    neighborCount: Integer;
+    distanceX: Single;
+    distanceY: Single;
+    sumVelocityX: Single;
+    sumVelocityY: Single;
+    meanVelocityX: Single;
+    meanVelocityY: Single;
+    deltaVelocityX: Single;
+    deltaVelocityY: Single;
     i: Integer;
+    j: Integer;
     bi: Tboid;
+    bj: TBoid;
   begin
     // Mimic Direction and Speed of Nearby Boids.
-    //TODO: Align.
     (*
         var neighbors = Boids.Where(x => x.GetDistance(boid) < distance);
         double meanXvel = neighbors.Sum(x => x.Xvel) / neighbors.Count();
@@ -201,8 +213,38 @@ implementation
     i := SelfIndex;
     bi := Boids[i];
 
-    bi.AlignX := 0;
-    bi.AlignY := 0;
+    bi.AlignX := 0.0;
+    bi.AlignY := 0.0;
+
+    distanceThresholdSquared := DistanceThreshold * DistanceThreshold;
+    sumVelocityX := 0.0;
+    sumVelocityY := 0.0;
+
+    neighborCount := 0;
+    for j := 1 to BoidCount do begin
+      bj := Boids[j];
+      if ((j <> i) and (not bj.IsHawk)) then begin
+        distanceX := bj.X - bi.X;
+        distanceY := bj.Y - bi.Y;
+        distanceSquared := (distanceX * distanceX) + (distanceY * distanceY);
+        if (distanceSquared < distanceThresholdSquared) then begin
+          Inc(neighborCount);
+          sumVelocityX := sumVelocityX + bj.X;
+          sumVelocityY := sumVelocityY + bj.Y;
+        end;
+      end;
+    end;
+
+    if (neighborCount > 0) then begin
+      meanVelocityX := sumVelocityX / neighborCount;
+      meanVelocityY := sumVelocityY / neighborCount;
+
+      deltaVelocityX := meanVelocityX - bi.X;
+      deltaVelocityY := meanVelocityY - bi.Y;
+
+      bi.AlignX := deltaVelocityX * Power;
+      bi.AlignY := deltaVelocityY * Power;
+    end;
   end;
 
   procedure TBoid.Avoid(const AvoidHawk: Boolean; const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
@@ -311,9 +353,6 @@ implementation
         if (double.IsNaN(Yvel))
             Yvel = 0;
     *)
-
-    //TODO: Add minimum & maximum speed to MoveForward.
-
     X := X + VelocityX;
     Y := Y + VelocityY;
 
@@ -321,9 +360,13 @@ implementation
     if (speed > MaxSpeed) then begin
       VelocityX := (VelocityX / speed) * MaxSpeed;
       VelocityY := (VelocityY / speed) * MaxSpeed;
-    end else if ((speed < minSpeed) and (speed > 0.0)) then begin
-      VelocityX := (VelocityX / speed) * MinSpeed;
-      VelocityY := (VelocityY / speed) * MinSpeed;
+    end else if (speed < minSpeed) then begin
+      if (speed > 0.0) then begin
+        VelocityX := (VelocityX / speed) * MinSpeed;
+        VelocityY := (VelocityY / speed) * MinSpeed;
+      end else begin
+        VelocityX := 0.1;
+      end;
     end;
   end;
 
