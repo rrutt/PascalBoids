@@ -77,13 +77,13 @@ implementation
     i: Integer;
     bi: TBoid;
   begin
+    //TODO: Add dialog controls to adjust rule Distance and Power parameters.
     for i := 1 to CurrentBoidCount do begin
       bi := Boids[i];
-      bi := Boids[i];
-      bi.Flock(Boids, 50, 0.0003);
-      bi.Align(Boids, 50, 0.01);
-      bi.Avoid(Boids, 20, 0.001);
-      bi.Predator(Boids, 150, 0.00005);
+      bi.Flock(Boids, CurrentBoidCount, 50, 0.0003);
+      bi.Align(Boids, CurrentBoidCount, 50, 0.01);
+      bi.Avoid(Boids, CurrentBoidCount, 20, 0.001);
+      bi.Predator(Boids, CurrentBoidCount, 150, 0.00005);
       bi.AdjustVelocity;
     end;
 
@@ -139,8 +139,6 @@ implementation
     i: Integer;
     bi: TBoid;
   begin
-    //TODO: Support creation of Hawk predators.
-
     if (CurrentBoidCount < MAXIMUM_BOID_COUNT) then begin
       Inc(CurrentBoidCount);
       i := CurrentBoidCount;

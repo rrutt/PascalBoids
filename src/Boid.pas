@@ -1,7 +1,8 @@
 unit Boid;
 
 {$mode objfpc}{$H+}
-
+{$WARN 5024 off : Parameter "$1" not used}
+{$WARN 5029 off : Private field "$1.$2" is never used}
 interface
 
 uses
@@ -10,6 +11,14 @@ uses
 type
   TBoid = Class
     private
+      FlockX: Single;
+      FlockY: Single;
+      AlignX: Single;
+      AlignY: Single;
+      AvoidX: Single;
+      AvoidY: Single;
+      PredatorX: Single;
+      PredatorY: Single;
     public
       IsHawk: Boolean;
       X: Single;
@@ -21,10 +30,10 @@ type
       procedure Randomize(const Width: Integer; const Height: Integer);
       procedure Initialize(const newX: Integer; const newY: Integer);
       procedure Paint(const TheCanvas: TCanvas);
-      procedure Flock(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
-      procedure Align(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
-      procedure Avoid(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
-      procedure Predator(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+      procedure Flock(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
+      procedure Align(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
+      procedure Avoid(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
+      procedure Predator(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
       procedure AdjustVelocity;
       procedure MoveForward;
       procedure BounceAwayFromWalls;
@@ -111,34 +120,105 @@ implementation
     TheCanvas.Polygon(p);
   end;
 
-  procedure TBoid.Flock(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+  procedure TBoid.Flock(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
+  var
+    distanceSquared: Single;
+    neighborCount: Integer;
+    distanceX: Single;
+    distanceY: Single;
+    sumX: Single;
+    sumY: Single;
+    meanX: Single;
+    meanY: Single;
+    j: Integer;
+    bj: TBoid;
   begin
-    //TODO: Flock.
+    (*
+        var neighbors = Boids.Where(x => x.GetDistance(boid) < distance);
+        double meanX = neighbors.Sum(x => x.X) / neighbors.Count();
+        double meanY = neighbors.Sum(x => x.Y) / neighbors.Count();
+        double deltaCenterX = meanX - boid.X;
+        double deltaCenterY = meanY - boid.Y;
+        return (deltaCenterX * power, deltaCenterY * power);
+    *)
+    distanceSquared := Distance * Distance;
+    sumX := 0.0;
+    sumY := 0.0;
+
+    neighborCount := 0;
+    for j := 1 to boidCount do begin
+      bj := Boids[j];
+      distanceX := bj.X - X;
+      distanceY := bj.Y - Y;
+      if (((distanceX * distanceX) + (distanceY * distanceY)) < distanceSquared) then begin
+        sumX := sumX + bj.X;
+        sumY := sumY + bj.Y;
+        Inc(neighborCount);
+      end;
+    end;
+
+    if (neighborCount > 0) then begin
+      meanX := sumX / neighborCount;
+      meanY := sumY / neighborCount;
+    end else begin
+      meanX := X;
+      meanY := Y;
+    end;
+
+    FlockX := (meanX - X) * Power;
+    FlockY := (meanY - Y) * Power;
   end;
 
-  procedure TBoid.Align(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+  procedure TBoid.Align(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
   begin
     //TODO: Align.
   end;
 
-  procedure TBoid.Avoid(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+  procedure TBoid.Avoid(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
   begin
     //TODO: Avoid.
   end;
 
-  procedure TBoid.Predator(const Boids: array of TBoid; const Distance: Integer; const Power: Single);
+  procedure TBoid.Predator(const Boids: array of TBoid; const boidCount: Integer; const Distance: Integer; const Power: Single);
   begin
     //TODO: Predator.
   end;
 
   procedure TBoid.AdjustVelocity;
   begin
-    //TODO: AdjustVelocity.
+    //TODO: Add other rule velocities in AdjustVelocity.
+    VelocityX := VelocityX + FlockX;
+    VelocityY := VelocityY + FlockY;
   end;
 
   procedure TBoid.MoveForward;
   begin
-    //TODO: MoveForward.
+    (*
+        X += Xvel;
+        Y += Yvel;
+
+        var speed = GetSpeed();
+        if (speed > maxSpeed)
+        {
+            Xvel = (Xvel / speed) * maxSpeed;
+            Yvel = (Yvel / speed) * maxSpeed;
+        }
+        else if (speed < minSpeed)
+        {
+            Xvel = (Xvel / speed) * minSpeed;
+            Yvel = (Yvel / speed) * minSpeed;
+        }
+
+        if (double.IsNaN(Xvel))
+            Xvel = 0;
+        if (double.IsNaN(Yvel))
+            Yvel = 0;
+    *)
+
+    X := X + VelocityX;
+    Y := Y + VelocityY;
+
+    //TODO: Add minimum & maximum speed to MoveForward.
   end;
 
   procedure TBoid.BounceAwayFromWalls;
