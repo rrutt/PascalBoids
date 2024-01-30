@@ -80,7 +80,7 @@ implementation
     //TODO: Add dialog controls to adjust rule Distance and Power parameters.
     for i := 1 to CurrentBoidCount do begin
       bi := Boids[i];
-      bi.Flock( Boids, i, CurrentBoidCount, 50, 0.0003);
+      bi.Flock(Boids, i, CurrentBoidCount, 50, 0.0003);
       bi.Align(Boids, i, CurrentBoidCount, 50, 0.01);
       bi.Avoid(Boids, i, CurrentBoidCount, 20, 0.001);
       bi.Predator(Boids, i, CurrentBoidCount, 150, 0.00005);

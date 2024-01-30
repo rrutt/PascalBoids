@@ -136,7 +136,7 @@ implementation
     bi: Tboid;
     bj: TBoid;
   begin
-
+    // Steer Toward Center of Mass of Nearby Boids.
     (*
         var neighbors = Boids.Where(x => x.GetDistance(boid) < distance);
         double meanX = neighbors.Sum(x => x.X) / neighbors.Count();
@@ -145,15 +145,15 @@ implementation
         double deltaCenterY = meanY - boid.Y;
         return (deltaCenterX * power, deltaCenterY * power);
     *)
-    FlockX := 0;
-    FlockY := 0;
+    i := SelfIndex;
+    bi := Boids[i];
+
+    bi.FlockX := 0;
+    bi.FlockY := 0;
 
     distanceThresholdSquared := DistanceThreshold * DistanceThreshold;
     sumX := 0.0;
     sumY := 0.0;
-
-    i := SelfIndex;
-    bi := Boids[i];
 
     neighborCount := 0;
     for j := 1 to BoidCount do begin
@@ -173,30 +173,85 @@ implementation
     if (neighborCount > 0) then begin
       meanX := sumX / neighborCount;
       meanY := sumY / neighborCount;
-      FlockX := (meanX - X) * Power;
-      FlockY := (meanY - Y) * Power;
+      bi.FlockX := (meanX - bi.X) * Power;
+      bi.FlockY := (meanY - bi.Y) * Power;
     end;
   end;
 
   procedure TBoid.Align(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+  var
+    i: Integer;
+    bi: Tboid;
   begin
+    // Mimic Direction and Speed of Nearby Boids.
     //TODO: Align.
-    AlignX := 0;
-    AlignY := 0;
+    (*
+        var neighbors = Boids.Where(x => x.GetDistance(boid) < distance);
+        double meanXvel = neighbors.Sum(x => x.Xvel) / neighbors.Count();
+        double meanYvel = neighbors.Sum(x => x.Yvel) / neighbors.Count();
+        double dXvel = meanXvel - boid.Xvel;
+        double dYvel = meanYvel - boid.Yvel;
+        return (dXvel * power, dYvel * power);
+    *)
+    i := SelfIndex;
+    bi := Boids[i];
+
+    bi.AlignX := 0;
+    bi.AlignY := 0;
   end;
 
   procedure TBoid.Avoid(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+  var
+    i: Integer;
+    bi: Tboid;
   begin
+    // Steer Away from Extremely Close Boids.
     //TODO: Avoid.
-    AvoidX := 0;
-    AvoidY := 0;
+    (*
+        var neighbors = Boids.Where(x => x.GetDistance(boid) < distance);
+        (double sumClosenessX, double sumClosenessY) = (0, 0);
+        foreach (var neighbor in neighbors)
+        {
+            double closeness = distance - boid.GetDistance(neighbor);
+            sumClosenessX += (boid.X - neighbor.X) * closeness;
+            sumClosenessY += (boid.Y - neighbor.Y) * closeness;
+        }
+        return (sumClosenessX * power, sumClosenessY * power);
+    *)
+    i := SelfIndex;
+    bi := Boids[i];
+
+    bi.AvoidX := 0;
+    bi.AvoidY := 0;
   end;
 
   procedure TBoid.Predator(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+  var
+    i: Integer;
+    bi: Tboid;
   begin
+    // Avoid Predators.
     //TODO: Predator.
-    PredatorX := 0;
-    PredatorY := 0;
+    (*
+        (double sumClosenessX, double sumClosenessY) = (0, 0);
+        for (int i = 0; i < PredatorCount; i++)
+        {
+            Boid predator = Boids[i];
+            double distanceAway = boid.GetDistance(predator);
+            if (distanceAway < distance)
+            {
+                double closeness = distance - distanceAway;
+                sumClosenessX += (boid.X - predator.X) * closeness;
+                sumClosenessY += (boid.Y - predator.Y) * closeness;
+            }
+        }
+        return (sumClosenessX * power, sumClosenessY * power);
+    *)
+    i := SelfIndex;
+    bi := Boids[i];
+
+    bi.PredatorX := 0;
+    bi.PredatorY := 0;
   end;
 
   procedure TBoid.AdjustVelocity;
@@ -207,6 +262,7 @@ implementation
 
   procedure TBoid.MoveForward;
   begin
+    // Speed Limit.
     (*
         X += Xvel;
         Y += Yvel;
@@ -237,12 +293,36 @@ implementation
 
   procedure TBoid.BounceAwayFromWalls;
   begin
+    // Avoid Edges.
     //TODO: BounceAwayFromWalls;
+    (*
+        double pad = 50;
+        double turn = .5;
+        if (boid.X < pad)
+            boid.Xvel += turn;
+        if (boid.X > Width - pad)
+            boid.Xvel -= turn;
+        if (boid.Y < pad)
+            boid.Yvel += turn;
+        if (boid.Y > Height - pad)
+            boid.Yvel -= turn;
+    *)
   end;
 
   procedure TBoid.WrapAround;
   begin
+    // Wrap the Universe.
     //TODO: WrapAround.
+    (*
+        if (boid.X < 0)
+            boid.X += Width;
+        if (boid.X > Width)
+            boid.X -= Width;
+        if (boid.Y < 0)
+            boid.Y += Height;
+        if (boid.Y > Height)
+            boid.Y -= Height;
+    *)
   end;
 
 end.

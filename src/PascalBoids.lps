@@ -28,8 +28,8 @@
         <Filename Value="PascalBoidsField.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="73"/>
-        <CursorPos Y="84"/>
+        <TopLine Value="85"/>
+        <CursorPos X="22" Y="82"/>
         <UsageCount Value="225"/>
         <Loaded Value="True"/>
       </Unit2>
@@ -38,8 +38,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="168"/>
-        <CursorPos X="98" Y="195"/>
+        <TopLine Value="290"/>
+        <CursorPos Y="322"/>
         <UsageCount Value="222"/>
         <Loaded Value="True"/>
       </Unit3>
