@@ -287,7 +287,7 @@ implementation
     sumClosenessX := 0.0;
     sumClosenessY := 0.0;
 
-    if (not biIsHawk) then begin
+    if (AvoidHawk or (not biIsHawk)) then begin
       for j := 1 to BoidCount do begin
         bj := Boids[j];
         bjIsHawk := bj.IsHawk;
@@ -302,7 +302,7 @@ implementation
         distanceY := jy - iy;
 
         distanceSquared := (distanceX * distanceX) + (distanceY * distanceY);
-        if ((j <> i) and (AvoidHawk = bjIsHawk)) then begin
+        if ((j <> i) and ((not AvoidHawk) or (AvoidHawk and (biIsHawk and bjIsHawk)))) then begin
           if (distanceSquared < distanceThresholdSquared) then begin
             closeness := DistanceThreshold - Sqrt(distanceSquared);
             sumClosenessX := (bi.X - bj.X) * closeness;
@@ -373,16 +373,27 @@ implementation
   procedure TBoid.BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Single);
   begin
     // Avoid Edges.
+    if (X < 0.0) then begin
+      X := -X;
+    end else if (X > Width) then begin
+      X := Width - X;
+    end;
+
     if ((X < Pad) and (VelocityX < 0)) then begin
       VelocityX := -VelocityX;
-    end;
-    if ((X > (Width - Pad)) and (VelocityX > 0)) then begin
+    end else if ((X > (Width - Pad)) and (VelocityX > 0)) then begin
       VelocityX := -VelocityX;
     end;
+
+    if (Y < 0.0) then begin
+      Y := -Y;
+    end else if (Y > Height) then begin
+      Y := Height - Y;
+    end;
+
     if ((Y < Pad) and (VelocityY < 0)) then begin
       VelocityY := -VelocityY;
-    end;
-    if ((Y > (Height - Pad)) and (VelocityY > 0)) then begin
+    end else if ((Y > (Height - Pad)) and (VelocityY > 0)) then begin
       VelocityY := -VelocityY;
     end;
   end;
