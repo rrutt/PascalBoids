@@ -61,7 +61,7 @@ begin
 
   LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount]);
 
-  ButtonStart.Enabled := true;
+  ButtonStart.Enabled := false;
 end;
 
 procedure TPascalBoidsMainForm.ResizeField;

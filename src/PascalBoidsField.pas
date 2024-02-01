@@ -10,17 +10,13 @@ uses
 
 const
   MAXIMUM_BOID_COUNT = 1000;
-  DEFAULT_BOID_COUNT = 100;
+  DEFAULT_BOID_COUNT = 1;//00;
 
   //TODO: Add main form checkbox to determine bounce vs. wrap-around.
   BOUNCE_OFF_WALLS = true;
 
 type
   TPascalBoidsField = class(TCustomControl)
-    private
-      CenterX: Integer;
-      CenterY: Integer;
-
     public
       CurrentBoidCount: Integer;
 
@@ -46,12 +42,9 @@ implementation
   begin
     CurrentBoidCount := DEFAULT_BOID_COUNT;
 
-    CenterX := Width div 2;
-    CenterY := Height div 2;
-
     for i := 1 to MAXIMUM_BOID_COUNT do begin
       bi := TBoid.Create;
-      bi.Randomize(Width, Height);
+      //bi.Randomize(Width, Height);
       Boids[i] := bi;
     end;
 

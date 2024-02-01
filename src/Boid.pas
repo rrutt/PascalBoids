@@ -3,6 +3,7 @@ unit Boid;
 {$mode objfpc}{$H+}
 {$WARN 5024 off : Parameter "$1" not used}
 {$WARN 5029 off : Private field "$1.$2" is never used}
+{$WARN 5027 off : Local variable "$1" is assigned but never used}
 interface
 
 uses
@@ -289,24 +290,26 @@ implementation
 
     if (AvoidHawk or (not biIsHawk)) then begin
       for j := 1 to BoidCount do begin
-        bj := Boids[j];
-        bjIsHawk := bj.IsHawk;
+        if (j <> i) then begin
+          bj := Boids[j];
+          bjIsHawk := bj.IsHawk;
 
-        ix := bi.X;
-        iy := bi.Y;
+          ix := bi.X;
+          iy := bi.Y;
 
-        jx := bj.X;
-        jy := bj.Y;
+          jx := bj.X;
+          jy := bj.Y;
 
-        distanceX := jx - ix;
-        distanceY := jy - iy;
+          distanceX := jx - ix;
+          distanceY := jy - iy;
 
-        distanceSquared := (distanceX * distanceX) + (distanceY * distanceY);
-        if ((j <> i) and ((not AvoidHawk) or (AvoidHawk and (biIsHawk and bjIsHawk)))) then begin
-          if (distanceSquared < distanceThresholdSquared) then begin
-            closeness := DistanceThreshold - Sqrt(distanceSquared);
-            sumClosenessX := (bi.X - bj.X) * closeness;
-            sumClosenessY := (bi.Y - bj.Y) * closeness;
+          distanceSquared := (distanceX * distanceX) + (distanceY * distanceY);
+          if (((not AvoidHawk) and (not biIsHawk)) or (AvoidHawk and bjIsHawk)) then begin
+            if (distanceSquared < distanceThresholdSquared) then begin
+              closeness := DistanceThreshold - Sqrt(distanceSquared);
+              sumClosenessX := (bi.X - bj.X) * closeness;
+              sumClosenessY := (bi.Y - bj.Y) * closeness;
+            end;
           end;
         end;
       end;
@@ -330,6 +333,10 @@ implementation
   procedure TBoid.MoveForward(const MinSpeed: Single; const MaxSpeed: Single);
   var
     speed: Single;
+    oldX: Single;
+    oldY: Single;
+    newX: Single;
+    newY: Single;
   begin
     // Speed Limit.
     (*
@@ -353,8 +360,12 @@ implementation
         if (double.IsNaN(Yvel))
             Yvel = 0;
     *)
-    X := X + VelocityX;
-    Y := Y + VelocityY;
+
+    oldX := X;
+    oldY := Y;
+
+    newX := X + VelocityX;
+    newY := Y + VelocityY;
 
     speed := Sqrt((VelocityX * VelocityX) + (VelocityY * VelocityY));
     if (speed > MaxSpeed) then begin
@@ -365,9 +376,13 @@ implementation
         VelocityX := (VelocityX / speed) * MinSpeed;
         VelocityY := (VelocityY / speed) * MinSpeed;
       end else begin
-        VelocityX := 0.1;
+        VelocityX := 1.0;
+        VelocityY := 1.0;
       end;
     end;
+
+    X := newX;
+    Y := newY;
   end;
 
   procedure TBoid.BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Single);
@@ -375,8 +390,8 @@ implementation
     // Avoid Edges.
     if (X < 0.0) then begin
       X := -X;
-    end else if (X > Width) then begin
-      X := Width - X;
+    end else if (X >= Width) then begin
+      X := Width - (X - Width);
     end;
 
     if ((X < Pad) and (VelocityX < 0)) then begin
@@ -387,8 +402,8 @@ implementation
 
     if (Y < 0.0) then begin
       Y := -Y;
-    end else if (Y > Height) then begin
-      Y := Height - Y;
+    end else if (Y >= Height) then begin
+      Y := Height - (Y - Height);
     end;
 
     if ((Y < Pad) and (VelocityY < 0)) then begin
@@ -403,14 +418,13 @@ implementation
     // Wrap the Universe.
     if (X < 0) then begin
       X := X + Width;
-    end;
-    if (X > Width) then begin
+    end else if (X >= Width) then begin
       X := X - Width;
     end;
+
     if (Y < 0) then begin
       Y := Y + Height;
-    end;
-    if (Y > Height) then begin
+    end else if (Y >= Height) then begin
       Y := Y - Height;
     end;
   end;
