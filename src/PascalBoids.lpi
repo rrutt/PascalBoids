@@ -16,7 +16,7 @@
       <MajorVersionNr Value="1"/>
       <BuildNr Value="21"/>
       <CharSet Value="03A4"/>
-      <StringTable Comments="MIT License.  https://opensource.org/licenses/MIT" CompanyName="Rick Rutt" FileDescription="Boids Flocking Simulation" LegalCopyright="Copyright 2024 Rick Rutt" ProductName="Boids Flocking Simulation" ProductVersion="1.0.0+20240127"/>
+      <StringTable Comments="MIT License.  https://opensource.org/licenses/MIT" CompanyName="Rick Rutt" FileDescription="Boids Flocking Simulation" LegalCopyright="Copyright 2024 Rick Rutt" ProductName="Boids Flocking Simulation" ProductVersion="1.0.0+20240131"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -77,6 +77,11 @@
         </Win32>
       </Options>
     </Linking>
+    <Other>
+      <CompilerMessages>
+        <IgnoredMessages idx6058="True" idx3124="True" idx3123="True"/>
+      </CompilerMessages>
+    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">

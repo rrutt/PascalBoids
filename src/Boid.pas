@@ -7,7 +7,7 @@ unit Boid;
 interface
 
 uses
-  Classes, Graphics, SysUtils;
+  Classes, Graphics, SysUtils, FGL;
 
 type
   TBoid = Class
@@ -21,6 +21,7 @@ type
       AvoidHawkX: Single;
       AvoidHawkY: Single;
     public
+      BoidNumber: Integer;
       IsHawk: Boolean;
       X: Single;
       Y: Single;
@@ -31,9 +32,9 @@ type
       procedure Randomize(const Width: Integer; const Height: Integer);
       procedure Initialize(const NewX: Single; const NewY: Single);
       procedure Paint(const TheCanvas: TCanvas);
-      procedure Flock(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
-      procedure Align(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
-      procedure Avoid(const AvoidHawk: Boolean; const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+      procedure Flock(const Boids: specialize TFPGObjectList<TBoid>; const DistanceThreshold: Integer; const Power: Single);
+      procedure Align(const Boids: specialize TFPGObjectList<TBoid>; const DistanceThreshold: Integer; const Power: Single);
+      procedure Avoid(const Boids: specialize TFPGObjectList<TBoid>; const AvoidHawk: Boolean; const DistanceThreshold: Integer; const Power: Single);
       procedure AdjustVelocity;
       procedure MoveForward(const MinSpeed: Single; const MaxSpeed: Single);
       procedure BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Single);
@@ -126,7 +127,7 @@ implementation
     TheCanvas.Polygon(p);
   end;
 
-  procedure TBoid.Flock(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+  procedure TBoid.Flock(const Boids: specialize TFPGObjectList<TBoid>; const DistanceThreshold: Integer; const Power: Single);
   var
     distanceThresholdSquared: Single;
     distanceSquared: Single;
@@ -137,6 +138,7 @@ implementation
     sumY: Single;
     meanX: Single;
     meanY: Single;
+    boidsEnumerator: specialize TFpGListEnumerator<TBoid>;
     i: Integer;
     j: Integer;
     bi: Tboid;
@@ -151,8 +153,8 @@ implementation
         double deltaCenterY = meanY - boid.Y;
         return (deltaCenterX * power, deltaCenterY * power);
     *)
-    i := SelfIndex;
-    bi := Boids[i];
+    bi := Self;
+    i := bi.BoidNumber;
 
     bi.FlockX := 0.0;
     bi.FlockY := 0.0;
@@ -162,8 +164,10 @@ implementation
     sumY := 0.0;
 
     neighborCount := 0;
-    for j := 1 to BoidCount do begin
-      bj := Boids[j];
+    boidsEnumerator := boids.GetEnumerator;
+    while (boidsEnumerator.MoveNext) do begin
+      bj := BoidsEnumerator.Current;
+      j := bj.BoidNumber;
       if ((j <> i) and (not bj.IsHawk)) then begin
         distanceX := bj.X - bi.X;
         distanceY := bj.Y - bi.Y;
@@ -184,7 +188,7 @@ implementation
     end;
   end;
 
-  procedure TBoid.Align(const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+  procedure TBoid.Align(const Boids: specialize TFPGObjectList<TBoid>; const DistanceThreshold: Integer; const Power: Single);
   var
     distanceThresholdSquared: Single;
     distanceSquared: Single;
@@ -197,6 +201,7 @@ implementation
     meanVelocityY: Single;
     deltaVelocityX: Single;
     deltaVelocityY: Single;
+    boidsEnumerator: specialize TFpGListEnumerator<TBoid>;
     i: Integer;
     j: Integer;
     bi: Tboid;
@@ -211,8 +216,8 @@ implementation
         double dYvel = meanYvel - boid.Yvel;
         return (dXvel * power, dYvel * power);
     *)
-    i := SelfIndex;
-    bi := Boids[i];
+    bi := Self;
+    i := bi.BoidNumber;
 
     bi.AlignX := 0.0;
     bi.AlignY := 0.0;
@@ -222,8 +227,10 @@ implementation
     sumVelocityY := 0.0;
 
     neighborCount := 0;
-    for j := 1 to BoidCount do begin
-      bj := Boids[j];
+    boidsEnumerator := boids.GetEnumerator;
+    while (boidsEnumerator.MoveNext) do begin
+      bj := BoidsEnumerator.Current;
+      j := bj.BoidNumber;
       if ((j <> i) and (not bj.IsHawk)) then begin
         distanceX := bj.X - bi.X;
         distanceY := bj.Y - bi.Y;
@@ -248,7 +255,7 @@ implementation
     end;
   end;
 
-  procedure TBoid.Avoid(const AvoidHawk: Boolean; const Boids: array of TBoid; const SelfIndex: Integer; const BoidCount: Integer; const DistanceThreshold: Integer; const Power: Single);
+  procedure TBoid.Avoid(const Boids: specialize TFPGObjectList<TBoid>; const AvoidHawk: Boolean; const DistanceThreshold: Integer; const Power: Single);
   var
     distanceThresholdSquared: Single;
     distanceSquared: Single;
@@ -257,6 +264,7 @@ implementation
     closeness: Single;
     sumClosenessX: Single;
     sumClosenessY: Single;
+    boidsEnumerator: specialize TFpGListEnumerator<TBoid>;
     i: Integer;
     j: Integer;
     bi: Tboid;
@@ -280,8 +288,8 @@ implementation
         }
         return (sumClosenessX * power, sumClosenessY * power);
     *)
-    i := SelfIndex;
-    bi := Boids[i];
+    bi := Self;
+    i := bi.BoidNumber;
     biIsHawk := bi.IsHawk;
 
     distanceThresholdSquared := DistanceThreshold * DistanceThreshold;
@@ -289,9 +297,11 @@ implementation
     sumClosenessY := 0.0;
 
     if (AvoidHawk or (not biIsHawk)) then begin
-      for j := 1 to BoidCount do begin
+      boidsEnumerator := boids.GetEnumerator;
+      while (boidsEnumerator.MoveNext) do begin
+        bj := BoidsEnumerator.Current;
+        j := bj.BoidNumber;
         if (j <> i) then begin
-          bj := Boids[j];
           bjIsHawk := bj.IsHawk;
 
           ix := bi.X;

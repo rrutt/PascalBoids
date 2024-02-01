@@ -9,7 +9,8 @@ uses
   StdCtrls, Spin, PascalBoidsField;
 
 const
-  PRODUCT_VERSION = '1.0.0+20240127';
+  PRODUCT_VERSION = '1.0.0+20240131';
+  MAXIMUM_BOID_COUNT = 1000;
 
 type
 

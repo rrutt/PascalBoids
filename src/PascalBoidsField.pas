@@ -6,11 +6,10 @@ interface
 {$mode objfpc}{$H+}
 
 uses
-  Classes, SysUtils, Controls, Dialogs, Graphics, LCLType, Boid;
+  Classes, SysUtils, Controls, Dialogs, Graphics, LCLType, Boid, FGL;
 
 const
-  MAXIMUM_BOID_COUNT = 1000;
-  DEFAULT_BOID_COUNT = 1;//00;
+  DEFAULT_BOID_COUNT = 100;
 
   //TODO: Add main form checkbox to determine bounce vs. wrap-around.
   BOUNCE_OFF_WALLS = true;
@@ -33,62 +32,68 @@ type
 implementation
 
   var
-    Boids: array[1..MAXIMUM_BOID_COUNT] of TBoid;
+    Boids: specialize TFPGObjectList<TBoid>;
 
   procedure TPascalBoidsField.Initialize;
-  var
-    i: Integer;
-    bi: TBoid;
   begin
-    CurrentBoidCount := DEFAULT_BOID_COUNT;
-
-    for i := 1 to MAXIMUM_BOID_COUNT do begin
-      bi := TBoid.Create;
-      //bi.Randomize(Width, Height);
-      Boids[i] := bi;
-    end;
+    Boids := specialize TFPGObjectList<TBoid>.Create;
+    CurrentBoidCount := 0;
 
     OnMouseDown := @MouseDown;
   end;
 
   procedure TPascalBoidsField.Randomize(const BoidCount: Integer);
   var
+    randomX: Integer;
+    randomY: Integer;
     i: Integer;
-    bi: TBoid;
+    makeHawk: Boolean;
   begin
-    CurrentBoidCount := BoidCount;
-
-    for i := 1 to CurrentBoidCount do begin
-      bi := Boids[i];
-      bi.Randomize(Width, Height);
+    if (CurrentBoidCount > 0) then begin
+      Boids.Destroy;
+      CurrentBoidCount := 0;
     end;
+
+    Boids := specialize TFPGObjectList<TBoid>.Create;
+
+    for i := 1 to BoidCount do begin
+      randomX := Trunc(1.0 + Random(Width - 1));
+      randomY := Trunc(1.0 + Random(Height - 1));
+
+      makeHawk := false;
+      AddNewBoid(randomX, randomY, makeHawk);
+    end;
+
+    CurrentBoidCount := BoidCount;
   end;
 
   procedure TPascalBoidsField.Iterate;
   var
-    i: Integer;
     bi: TBoid;
     avoidHawk: Boolean;
+    boidsEnumerator: specialize TFpGListEnumerator<TBoid>;
   begin
-    //TODO: Add dialog controls to adjust rule Distance and Power parameters.
-    for i := 1 to CurrentBoidCount do begin
-      bi := Boids[i];
+    //TODO: Add dialog controls to adjust rule Distance and Power parameters or use INI file.
+    boidsEnumerator := boids.GetEnumerator;
+    while (boidsEnumerator.MoveNext) do begin
+      bi := BoidsEnumerator.Current;
 
-      bi.Flock(Boids, i, CurrentBoidCount, 50, 0.0003);
+      bi.Flock(Boids, 50, 0.0003);
 
-      bi.Align(Boids, i, CurrentBoidCount, 50, 0.01);
+      bi.Align(Boids, 50, 0.01);
 
       avoidHawk := false;
-      bi.Avoid(avoidHawk, Boids, i, CurrentBoidCount, 20, 0.001);
+      bi.Avoid(Boids, avoidHawk, 20, 0.001);
 
       avoidHawk := true;
-      bi.Avoid(avoidHawk, Boids, i, CurrentBoidCount, 150, 0.00005);
+      bi.Avoid(Boids, avoidHawk, 150, 0.00005);
 
       bi.AdjustVelocity;
     end;
 
-    for i := 1 to CurrentBoidCount do begin
-      bi := Boids[i];
+    boidsEnumerator := boids.GetEnumerator;
+    while (boidsEnumerator.MoveNext) do begin
+      bi := BoidsEnumerator.Current;
       bi.MoveForward(1.0, 5.0);
       if (BOUNCE_OFF_WALLS) then begin
         bi.BounceAwayFromWalls(Width, Height, 20.0);
@@ -106,7 +111,7 @@ implementation
 
   procedure TPascalBoidsField.Paint;
   var
-    i: Integer;
+    boidsEnumerator: specialize TFpGListEnumerator<TBoid>;
     bi: TBoid;
     Bitmap: TBitmap;
   begin
@@ -120,8 +125,9 @@ implementation
       Bitmap.Canvas.Brush.Color := clAqua;
       Bitmap.Canvas.FillRect(0, 0, Width, Height);
 
-      for i := 1 to CurrentBoidCount do begin
-        bi := Boids[i];
+      boidsEnumerator := boids.GetEnumerator;
+      while (boidsEnumerator.MoveNext) do begin
+        bi := BoidsEnumerator.Current;
         bi.Paint(Bitmap.Canvas);
       end;
 
@@ -138,15 +144,13 @@ implementation
     i: Integer;
     bi: TBoid;
   begin
-    if (CurrentBoidCount < MAXIMUM_BOID_COUNT) then begin
-      Inc(CurrentBoidCount);
-      i := CurrentBoidCount;
-      bi := Boids[i];
-      bi.Initialize(X, Y);
-      bi.IsHawk := MakeHawk;
-    end else begin
-      ShowMessage(Format('The maximum number of Boid slots (%d) has been reached.', [MAXIMUM_BOID_COUNT]));
-    end;
+    bi := TBoid.Create;
+    bi.Initialize(X, Y);
+    Boids.Add(bi);
+    Inc(CurrentBoidCount);
+    i := CurrentBoidCount;
+    bi.BoidNumber := i;
+    bi.IsHawk := MakeHawk;
   end;
 
   procedure TPascalBoidsField.MouseDown(Sender: TObject;
