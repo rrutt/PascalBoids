@@ -6,12 +6,14 @@ interface
 {$mode objfpc}{$H+}
 
 uses
-  Classes, SysUtils, Controls, Dialogs, Graphics, LCLType, Boid, FGL;
+  Classes, SysUtils, Controls, Dialogs, FGL, Graphics, LCLType,
+  Boid,
+  PascalBoidsRuleForm;
 
 const
   DEFAULT_BOID_COUNT = 100;
 
-  //TODO: Add main form checkbox to determine bounce vs. wrap-around.
+  //TODO: Add rules form checkbox to determine bounce vs. wrap-around.
   BOUNCE_OFF_WALLS = true;
 
 type

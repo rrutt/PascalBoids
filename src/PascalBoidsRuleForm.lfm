@@ -1,0 +1,9 @@
+object PascalBoidsRuleForm: TPascalBoidsRuleForm
+  Left = 388
+  Height = 428
+  Top = 236
+  Width = 472
+  Caption = 'Boids Flocking Rules'
+  OnCloseQuery = FormCloseQuery
+  LCLVersion = '2.0.10.0'
+end
