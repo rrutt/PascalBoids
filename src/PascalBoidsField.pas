@@ -102,11 +102,10 @@ implementation
       bi := BoidsEnumerator.Current;
       bi.MoveForward(RuleForm.MinSpeed, RuleForm.MaxSpeed);
 
-      //TODO: Debug why manual set from Wrap to Bounce fails, but SetDefaults works.
-      if (RuleForm.BounceOffWalls) then begin
-        bi.BounceAwayFromWalls(Width, Height, RuleForm.BounceDistance);
-      end else begin
+      if (RuleForm.WrapAroundEdges) then begin
         bi.WrapAround(Width, Height);
+      end else begin
+        bi.BounceAwayFromWalls(Width, Height, RuleForm.BounceDistance);
       end;
     end;
   end;

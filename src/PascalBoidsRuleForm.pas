@@ -16,6 +16,7 @@ type
     ButtonApply: TButton;
     ButtonSetDefaults: TButton;
     ButtonHide: TButton;
+    CheckBoxWrapAround: TCheckBox;
     EditAvoidHawkPower: TEdit;
     EditFlockPower: TEdit;
     EditAlignPower: TEdit;
@@ -31,9 +32,6 @@ type
     Label7: TLabel;
     Label8: TLabel;
     Label9: TLabel;
-    RadioButtonWrap: TRadioButton;
-    RadioButtonBounce: TRadioButton;
-    RadioGroupEdge: TRadioGroup;
     SpinEditAvoidBoidDistance: TSpinEdit;
     SpinEditAvoidHawkDistance: TSpinEdit;
     SpinEditFlockDistance: TSpinEdit;
@@ -69,7 +67,7 @@ type
 
     BounceDistance: Integer;
 
-    BounceOffWalls: Boolean;
+    WrapAroundEdges: Boolean;
 
     procedure FormCreate(Sender: TObject);
     procedure SetDefaultValues;
@@ -102,7 +100,7 @@ begin
 
   BounceDistance := 20;
 
-  BounceOffWalls := true;
+  WrapAroundEdges := false;
 end;
 
 procedure TPascalBoidsRuleForm.CopyFieldsToControls;
@@ -124,11 +122,7 @@ begin
 
   SpinEditBounceDistance.Value := BounceDistance;
 
-  if (BounceOffWalls) then begin
-    RadioButtonBounce.Checked := true;
-  end else begin
-    RadioButtonWrap.Checked := true;
-  end;
+  CheckBoxWrapAround.Checked := WrapAroundEdges;
 end;
 
 procedure TPascalBoidsRuleForm.CopyControlsToFields;
@@ -173,11 +167,7 @@ begin
 
   BounceDistance := SpinEditBounceDistance.Value;
 
-  if (RadioGroupEdge.ItemIndex = 0) then begin
-    BounceOffWalls := true;
-  end else begin
-    BounceOffWalls := false;
-  end;
+  WrapAroundEdges := CheckBoxWrapAround.Checked;
 end;
 
 procedure TPascalBoidsRuleForm.FormCloseQuery(Sender: TObject;

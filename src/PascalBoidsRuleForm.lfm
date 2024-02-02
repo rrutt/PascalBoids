@@ -1,17 +1,17 @@
 object PascalBoidsRuleForm: TPascalBoidsRuleForm
   Left = 845
-  Height = 547
+  Height = 493
   Top = 212
   Width = 278
   Caption = 'Boids Rules'
-  ClientHeight = 547
+  ClientHeight = 493
   ClientWidth = 278
   OnCloseQuery = FormCloseQuery
   LCLVersion = '2.0.10.0'
   object ButtonApply: TButton
     Left = 120
     Height = 41
-    Top = 496
+    Top = 440
     Width = 64
     Caption = 'Apply'
     Font.CharSet = ANSI_CHARSET
@@ -26,9 +26,9 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     TabOrder = 14
   end
   object ButtonHide: TButton
-    Left = 192
+    Left = 190
     Height = 41
-    Top = 496
+    Top = 440
     Width = 67
     Caption = 'Hide'
     Font.CharSet = ANSI_CHARSET
@@ -73,48 +73,6 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Style = [fsBold]
     ParentColor = False
     ParentFont = False
-  end
-  object RadioGroupEdge: TRadioGroup
-    Left = 9
-    Height = 88
-    Top = 360
-    Width = 249
-    AutoFill = True
-    Caption = 'Edge Treatment'
-    ChildSizing.LeftRightSpacing = 6
-    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-    ChildSizing.EnlargeVertical = crsHomogenousChildResize
-    ChildSizing.ShrinkHorizontal = crsScaleChilds
-    ChildSizing.ShrinkVertical = crsScaleChilds
-    ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ChildSizing.ControlsPerLine = 1
-    ClientHeight = 63
-    ClientWidth = 245
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clBlack
-    Font.Height = -15
-    Font.Name = 'Segoe UI'
-    Font.Pitch = fpVariable
-    Font.Quality = fqDraft
-    Font.Style = [fsBold]
-    ParentFont = False
-    TabOrder = 11
-    object RadioButtonBounce: TRadioButton
-      Left = 6
-      Height = 32
-      Top = 0
-      Width = 233
-      Caption = 'Bounce Away'
-      TabOrder = 1
-    end
-    object RadioButtonWrap: TRadioButton
-      Left = 6
-      Height = 31
-      Top = 32
-      Width = 233
-      Caption = 'Wrap Around'
-      TabOrder = 0
-    end
   end
   object SpinEditFlockDistance: TSpinEdit
     Left = 169
@@ -211,9 +169,9 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     ParentFont = False
   end
   object ButtonSetDefaults: TButton
-    Left = 18
+    Left = 16
     Height = 41
-    Top = 496
+    Top = 440
     Width = 96
     Caption = 'Set Defaults'
     Font.CharSet = ANSI_CHARSET
@@ -302,9 +260,9 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Text = 'EditAvoidHawkPower'
   end
   object Label9: TLabel
-    Left = 18
+    Left = 17
     Height = 20
-    Top = 456
+    Top = 368
     Width = 120
     Caption = 'Bounce Distance:'
     Font.CharSet = ANSI_CHARSET
@@ -318,12 +276,12 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     ParentFont = False
   end
   object SpinEditBounceDistance: TSpinEdit
-    Left = 168
+    Left = 169
     Height = 28
-    Top = 456
+    Top = 368
     Width = 90
     MinValue = 1
-    TabOrder = 12
+    TabOrder = 11
     Value = 1
   end
   object Label10: TLabel
@@ -375,5 +333,21 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     MinValue = 1
     TabOrder = 10
     Value = 1
+  end
+  object CheckBoxWrapAround: TCheckBox
+    Left = 16
+    Height = 24
+    Top = 400
+    Width = 164
+    Caption = 'Wrap Around Edges'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 12
   end
 end
