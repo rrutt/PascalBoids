@@ -144,7 +144,7 @@ object PascalBoidsMainForm: TPascalBoidsMainForm
     ParentFont = False
     TabOrder = 5
   end
-  object LabelBoidCount1: TLabel
+  object LabelHawkCount: TLabel
     Left = 688
     Height = 20
     Top = 24

@@ -13,13 +13,13 @@ uses
 const
   DEFAULT_BOID_COUNT = 100;
 
-  //TODO: Add rules form checkbox to determine bounce vs. wrap-around.
-  BOUNCE_OFF_WALLS = true;
-
 type
   TPascalBoidsField = class(TCustomControl)
     public
+      RuleForm: TPascalBoidsRuleForm;
+
       CurrentBoidCount: Integer;
+      CurrentHawkCount: Integer;
 
       procedure Initialize;
       procedure Randomize(const BoidCount: Integer);
@@ -39,7 +39,9 @@ implementation
   procedure TPascalBoidsField.Initialize;
   begin
     Boids := specialize TFPGObjectList<TBoid>.Create;
+
     CurrentBoidCount := 0;
+    CurrentHawkCount := 0;
 
     OnMouseDown := @MouseDown;
   end;
@@ -53,7 +55,9 @@ implementation
   begin
     if (CurrentBoidCount > 0) then begin
       Boids.Destroy;
+
       CurrentBoidCount := 0;
+      CurrentHawkCount := 0;
     end;
 
     Boids := specialize TFPGObjectList<TBoid>.Create;
@@ -67,6 +71,7 @@ implementation
     end;
 
     CurrentBoidCount := BoidCount;
+    CurrentHawkCount := 0;
   end;
 
   procedure TPascalBoidsField.Iterate;
@@ -75,20 +80,19 @@ implementation
     avoidHawk: Boolean;
     boidsEnumerator: specialize TFpGListEnumerator<TBoid>;
   begin
-    //TODO: Add dialog controls to adjust rule Distance and Power parameters or use INI file.
     boidsEnumerator := boids.GetEnumerator;
     while (boidsEnumerator.MoveNext) do begin
       bi := BoidsEnumerator.Current;
 
-      bi.Flock(Boids, 50, 0.0003);
+      bi.Flock(Boids, RuleForm.FlockDistance, RuleForm.FlockPower);
 
-      bi.Align(Boids, 50, 0.01);
+      bi.Align(Boids, RuleForm.AlignDistance, RuleForm.AlignPower);
 
       avoidHawk := false;
-      bi.Avoid(Boids, avoidHawk, 20, 0.001);
+      bi.Avoid(Boids, avoidHawk, RuleForm.AvoidBoidDistance, RuleForm.AvoidBoidPower);
 
       avoidHawk := true;
-      bi.Avoid(Boids, avoidHawk, 150, 0.00005);
+      bi.Avoid(Boids, avoidHawk, RuleForm.AvoidHawkDistance, RuleForm.AvoidHawkPower);
 
       bi.AdjustVelocity;
     end;
@@ -96,9 +100,11 @@ implementation
     boidsEnumerator := boids.GetEnumerator;
     while (boidsEnumerator.MoveNext) do begin
       bi := BoidsEnumerator.Current;
-      bi.MoveForward(1.0, 5.0);
-      if (BOUNCE_OFF_WALLS) then begin
-        bi.BounceAwayFromWalls(Width, Height, 20.0);
+      bi.MoveForward(RuleForm.MinSpeed, RuleForm.MaxSpeed);
+
+      //TODO: Debug why manual set from Wrap to Bounce fails, but SetDefaults works.
+      if (RuleForm.BounceOffWalls) then begin
+        bi.BounceAwayFromWalls(Width, Height, RuleForm.BounceDistance);
       end else begin
         bi.WrapAround(Width, Height);
       end;
@@ -153,6 +159,10 @@ implementation
     i := CurrentBoidCount;
     bi.BoidNumber := i;
     bi.IsHawk := MakeHawk;
+
+    if (MakeHawk) then begin
+      Inc(CurrentHawkCount);
+    end;
   end;
 
   procedure TPascalBoidsField.MouseDown(Sender: TObject;

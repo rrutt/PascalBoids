@@ -36,8 +36,8 @@ type
       procedure Align(const Boids: specialize TFPGObjectList<TBoid>; const DistanceThreshold: Integer; const Power: Single);
       procedure Avoid(const Boids: specialize TFPGObjectList<TBoid>; const AvoidHawk: Boolean; const DistanceThreshold: Integer; const Power: Single);
       procedure AdjustVelocity;
-      procedure MoveForward(const MinSpeed: Single; const MaxSpeed: Single);
-      procedure BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Single);
+      procedure MoveForward(const MinSpeed: Integer; const MaxSpeed: Integer);
+      procedure BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Integer);
       procedure WrapAround(const Width: Integer; const Height: Integer);
   end;
 
@@ -340,7 +340,7 @@ implementation
     VelocityY := VelocityY + FlockY + AlignY + AvoidY + AvoidHawkY;
   end;
 
-  procedure TBoid.MoveForward(const MinSpeed: Single; const MaxSpeed: Single);
+  procedure TBoid.MoveForward(const MinSpeed: Integer; const MaxSpeed: Integer);
   var
     speed: Single;
     oldX: Single;
@@ -395,7 +395,7 @@ implementation
     Y := newY;
   end;
 
-  procedure TBoid.BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Single);
+  procedure TBoid.BounceAwayFromWalls(const Width: Integer; const Height: Integer; const Pad: Integer);
   begin
     // Avoid Edges.
     if (X < 0.0) then begin

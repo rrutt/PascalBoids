@@ -26,7 +26,7 @@ type
     Label1: TLabel;
     Label3: TLabel;
     LabelBoidCount: TLabel;
-    LabelBoidCount1: TLabel;
+    LabelHawkCount: TLabel;
     Label2: TLabel;
     SpinEditBoidCount: TSpinEdit;
     Timer1: TTimer;
@@ -66,11 +66,14 @@ begin
   SpinEditBoidCount.Value := DEFAULT_BOID_COUNT;
 
   RuleForm.SetDefaultValues;
+  RuleForm.CopyFieldsToControls;
 
   Field := TPascalBoidsField.Create(Self);
+  Field.RuleForm := RuleForm;
   ResizeField;
 
-  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount - Field.CurrentHawkCount]);
+  LabelHawkCount.Caption := Format('%d', [Field.CurrentHawkCount]);
 
   ButtonStart.Enabled := false;
 end;
@@ -98,7 +101,8 @@ begin
   Field.Iterate;
   Field.Paint;
 
-  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount - Field.CurrentHawkCount]);
+  LabelHawkCount.Caption := Format('%d', [Field.CurrentHawkCount]);
 
   Timer1.Enabled := true;
 end;
@@ -112,7 +116,8 @@ begin
   Field.Randomize(SpinEditBoidCount.Value);
   Field.Paint;
 
-  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount - Field.CurrentHawkCount]);
+  LabelHawkCount.Caption := Format('%d', [Field.CurrentHawkCount]);
 
   ButtonRandomize.Enabled := true;
   ButtonStart.Enabled := true;
@@ -157,7 +162,8 @@ begin
   Field.Iterate;
   Field.Paint;
 
-  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount - Field.CurrentHawkCount]);
+  LabelHawkCount.Caption := Format('%d', [Field.CurrentHawkCount]);
 end;
 
 procedure TPascalBoidsMainForm.FormClose(Sender: TObject;

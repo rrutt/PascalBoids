@@ -8,7 +8,7 @@
       <Unit0>
         <Filename Value="PascalBoids.lpr"/>
         <IsPartOfProject Value="True"/>
-        <CursorPos Y="28"/>
+        <CursorPos Y="30"/>
         <UsageCount Value="232"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -19,8 +19,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="139"/>
-        <CursorPos X="93" Y="151"/>
+        <TopLine Value="87"/>
+        <CursorPos X="68" Y="61"/>
         <UsageCount Value="232"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -28,9 +28,9 @@
       <Unit2>
         <Filename Value="PascalBoidsField.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="31"/>
-        <CursorPos X="75" Y="7"/>
+        <CursorPos Y="15"/>
         <UsageCount Value="225"/>
         <Loaded Value="True"/>
       </Unit2>
@@ -38,8 +38,8 @@
         <Filename Value="Boid.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="43"/>
-        <CursorPos X="57" Y="57"/>
+        <TopLine Value="387"/>
+        <CursorPos X="102" Y="398"/>
         <UsageCount Value="222"/>
         <Loaded Value="True"/>
       </Unit3>
@@ -49,11 +49,10 @@
         <ComponentName Value="PascalBoidsRuleForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="19"/>
-        <CursorPos X="73" Y="41"/>
-        <UsageCount Value="63"/>
+        <TopLine Value="153"/>
+        <CursorPos X="52" Y="179"/>
+        <UsageCount Value="68"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit4>
@@ -97,121 +96,122 @@
     </Units>
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="161" Column="8" TopLine="134"/>
+        <Filename Value="Boid.pas"/>
+        <Caret Line="39" Column="77" TopLine="17"/>
       </Position1>
       <Position2>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="149" Column="17" TopLine="134"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="154" Column="45" TopLine="138"/>
       </Position2>
       <Position3>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="132" Column="56" TopLine="122"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="155" Column="45" TopLine="139"/>
       </Position3>
       <Position4>
-        <Filename Value="PascalBoidsMainForm.pas"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="154" Column="45" TopLine="138"/>
       </Position4>
       <Position5>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="24" Column="20"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="155" Column="45" TopLine="139"/>
       </Position5>
       <Position6>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="34" Column="30" TopLine="7"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="156" Column="45" TopLine="140"/>
       </Position6>
       <Position7>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="82" Column="53" TopLine="64"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="157" Column="45" TopLine="141"/>
       </Position7>
       <Position8>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="85" Column="71" TopLine="64"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="158" Column="45" TopLine="142"/>
       </Position8>
       <Position9>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="122" TopLine="94"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="159" Column="45" TopLine="143"/>
       </Position9>
       <Position10>
-        <Filename Value="PascalBoidsMainForm.pas"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="174" Column="49" TopLine="153"/>
       </Position10>
       <Position11>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="33" Column="32" TopLine="6"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="103" Column="24" TopLine="90"/>
       </Position11>
       <Position12>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="34" Column="36" TopLine="7"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="108" Column="34" TopLine="92"/>
       </Position12>
       <Position13>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="37" Column="32" TopLine="10"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="166" Column="71" TopLine="153"/>
       </Position13>
       <Position14>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="38" Column="31" TopLine="11"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
       </Position14>
       <Position15>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="122" TopLine="100"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="35" Column="22" TopLine="8"/>
       </Position15>
       <Position16>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="96" Column="71" TopLine="82"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="41" Column="19" TopLine="14"/>
       </Position16>
       <Position17>
-        <Filename Value="PascalBoidsMainForm.pas"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="70" Column="11" TopLine="44"/>
       </Position17>
       <Position18>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="33" Column="32" TopLine="6"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="72" Column="11" TopLine="46"/>
       </Position18>
       <Position19>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="34" Column="36" TopLine="7"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="103" Column="9" TopLine="76"/>
       </Position19>
       <Position20>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="37" Column="32" TopLine="10"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="105" Column="9" TopLine="78"/>
       </Position20>
       <Position21>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="38" Column="31" TopLine="11"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="125" Column="41" TopLine="98"/>
       </Position21>
       <Position22>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="120" Column="30" TopLine="100"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="127" Column="13" TopLine="100"/>
       </Position22>
       <Position23>
-        <Filename Value="PascalBoidsMainForm.pas"/>
-        <Caret Line="113" Column="79" TopLine="109"/>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <Caret Line="128" Column="22" TopLine="101"/>
       </Position23>
       <Position24>
         <Filename Value="PascalBoidsRuleForm.pas"/>
-        <Caret Line="16" Column="80" TopLine="8"/>
+        <Caret Line="174" Column="35" TopLine="148"/>
       </Position24>
       <Position25>
         <Filename Value="PascalBoidsRuleForm.pas"/>
-        <Caret Line="40" Column="8" TopLine="8"/>
+        <Caret Line="177" Column="11" TopLine="151"/>
       </Position25>
       <Position26>
-        <Filename Value="PascalBoidsRuleForm.pas"/>
-        <Caret Line="20" Column="59" TopLine="13"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="108" Column="34" TopLine="92"/>
       </Position26>
       <Position27>
-        <Filename Value="PascalBoidsRuleForm.pas"/>
-        <Caret Line="41" Column="3" TopLine="13"/>
+        <Filename Value="PascalBoidsField.pas"/>
       </Position27>
       <Position28>
-        <Filename Value="PascalBoidsRuleForm.pas"/>
-        <Caret Line="47" Column="21" TopLine="25"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="16" Column="54"/>
       </Position28>
       <Position29>
-        <Filename Value="PascalBoidsRuleForm.pas"/>
-        <Caret Line="37" TopLine="19"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="17" Column="9"/>
       </Position29>
       <Position30>
-        <Filename Value="PascalBoidsRuleForm.pas"/>
-        <Caret Line="41" Column="15" TopLine="19"/>
+        <Filename Value="PascalBoidsField.pas"/>
+        <Caret Line="108" Column="26" TopLine="82"/>
       </Position30>
     </JumpHistory>
     <RunParams>
