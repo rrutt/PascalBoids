@@ -1,5 +1,7 @@
 unit Boid;
 
+// Copyright (c) 2024 Rick Rutt
+
 {$mode objfpc}{$H+}
 {$WARN 5024 off : Parameter "$1" not used}
 {$WARN 5029 off : Private field "$1.$2" is never used}

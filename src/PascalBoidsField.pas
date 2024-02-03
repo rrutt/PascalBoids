@@ -1,4 +1,7 @@
 unit PascalBoidsField;
+
+// Copyright (c) 2024 Rick Rutt
+
 {$WARN 5024 off : Parameter "$1" not used}
 {$WARN 6018 off : unreachable code}
 interface

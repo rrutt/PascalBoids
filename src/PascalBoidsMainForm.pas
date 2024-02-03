@@ -1,5 +1,7 @@
 unit PascalBoidsMainForm;
 
+// Copyright (c) 2024 Rick Rutt
+
 {$mode objfpc}{$H+}
 {$WARN 5024 off : Parameter "$1" not used}
 interface
@@ -10,7 +12,7 @@ uses
   PascalBoidsField;
 
 const
-  PRODUCT_VERSION = '1.0.0+20240131';
+  PRODUCT_VERSION = '1.0.0+20240202';
   MAXIMUM_BOID_COUNT = 1000;
 
 type

@@ -1,5 +1,7 @@
 program PascalBoids;
 
+// Copyright (c) 2024 Rick Rutt
+
 {$mode objfpc}{$H+}
 
 {$IFDEF WINDOWS}

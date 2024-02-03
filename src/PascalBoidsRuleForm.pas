@@ -1,5 +1,7 @@
 unit PascalBoidsRuleForm;
 
+// Copyright (c) 2024 Rick Rutt
+
 {$mode objfpc}{$H+}
 {$WARN 5024 off : Parameter "$1" not used}
 interface
@@ -117,7 +119,7 @@ begin
   SpinEditAvoidHawkDistance.Value := AvoidHawkDistance;
   EditAvoidHawkPower.Text := FormatFLoat('0.00000', AvoidHawkPower);
 
-  SpinEditMinSpeed.Value := MaxSpeed;
+  SpinEditMinSpeed.Value := MinSpeed;
   SpinEditMaxSpeed.Value := MaxSpeed;
 
   SpinEditBounceDistance.Value := BounceDistance;
@@ -135,7 +137,7 @@ begin
   if (ok) then begin
     FlockPower := value;
   end else begin
-    EditFlockPower.Text := FormatFLoat('0.00000', FlockPower);
+    EditFlockPower.Text := FormatFloat('0.00000', FlockPower);
   end;
 
   AlignDistance := SpinEditAlignDistance.Value;
