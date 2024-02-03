@@ -1,0 +1,353 @@
+object PascalBoidsRuleForm: TPascalBoidsRuleForm
+  Left = 845
+  Height = 493
+  Top = 212
+  Width = 278
+  Caption = 'Boids Rules'
+  ClientHeight = 493
+  ClientWidth = 278
+  OnCloseQuery = FormCloseQuery
+  LCLVersion = '2.0.10.0'
+  object ButtonApply: TButton
+    Left = 120
+    Height = 41
+    Top = 440
+    Width = 64
+    Caption = 'Apply'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    OnMouseDown = ButtonApplyMouseDown
+    ParentFont = False
+    TabOrder = 14
+  end
+  object ButtonHide: TButton
+    Left = 190
+    Height = 41
+    Top = 440
+    Width = 67
+    Caption = 'Hide'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    OnMouseDown = ButtonHideMouseDown
+    ParentFont = False
+    TabOrder = 0
+  end
+  object Label1: TLabel
+    Left = 16
+    Height = 20
+    Top = 8
+    Width = 126
+    Caption = 'Flocking Distance:'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label2: TLabel
+    Left = 17
+    Height = 20
+    Top = 40
+    Width = 111
+    Caption = 'Flocking Power:'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object SpinEditFlockDistance: TSpinEdit
+    Left = 169
+    Height = 28
+    Top = 8
+    Width = 90
+    MaxValue = 1000
+    MinValue = 1
+    TabOrder = 1
+    Value = 1
+  end
+  object Label3: TLabel
+    Left = 16
+    Height = 20
+    Top = 80
+    Width = 127
+    Caption = 'Aligning Distance:'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label4: TLabel
+    Left = 16
+    Height = 20
+    Top = 112
+    Width = 112
+    Caption = 'Aligning Power:'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object SpinEditAlignDistance: TSpinEdit
+    Left = 169
+    Height = 28
+    Top = 80
+    Width = 90
+    MaxValue = 1000
+    MinValue = 1
+    TabOrder = 3
+    Value = 1
+  end
+  object Label5: TLabel
+    Left = 16
+    Height = 20
+    Top = 152
+    Width = 145
+    Caption = 'Avoid Boid Distance:'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object SpinEditAvoidBoidDistance: TSpinEdit
+    Left = 169
+    Height = 28
+    Top = 152
+    Width = 90
+    MaxValue = 1000
+    MinValue = 1
+    TabOrder = 5
+    Value = 1
+  end
+  object Label6: TLabel
+    Left = 16
+    Height = 20
+    Top = 184
+    Width = 130
+    Caption = 'Avoid Boid Power:'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object ButtonSetDefaults: TButton
+    Left = 16
+    Height = 41
+    Top = 440
+    Width = 96
+    Caption = 'Set Defaults'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    OnMouseDown = ButtonSetDefaultsMouseDown
+    ParentFont = False
+    TabOrder = 13
+  end
+  object Label7: TLabel
+    Left = 16
+    Height = 20
+    Top = 224
+    Width = 152
+    Caption = 'Avoid Hawk Distance:'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object SpinEditAvoidHawkDistance: TSpinEdit
+    Left = 169
+    Height = 28
+    Top = 224
+    Width = 90
+    MaxValue = 1000
+    MinValue = 1
+    TabOrder = 7
+    Value = 1
+  end
+  object Label8: TLabel
+    Left = 16
+    Height = 20
+    Top = 256
+    Width = 137
+    Caption = 'Avoid Hawk Power:'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object EditFlockPower: TEdit
+    Left = 169
+    Height = 28
+    Top = 40
+    Width = 90
+    TabOrder = 2
+    Text = 'EditFlockPower'
+  end
+  object EditAlignPower: TEdit
+    Left = 167
+    Height = 28
+    Top = 112
+    Width = 90
+    TabOrder = 4
+    Text = 'EditAlignPower'
+  end
+  object EditAvoidBoidPower: TEdit
+    Left = 169
+    Height = 28
+    Top = 184
+    Width = 90
+    TabOrder = 6
+    Text = 'EditAvoidBoidPower'
+  end
+  object EditAvoidHawkPower: TEdit
+    Left = 169
+    Height = 28
+    Top = 256
+    Width = 90
+    TabOrder = 8
+    Text = 'EditAvoidHawkPower'
+  end
+  object Label9: TLabel
+    Left = 17
+    Height = 20
+    Top = 368
+    Width = 120
+    Caption = 'Bounce Distance:'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object SpinEditBounceDistance: TSpinEdit
+    Left = 169
+    Height = 28
+    Top = 368
+    Width = 90
+    MinValue = 1
+    TabOrder = 11
+    Value = 1
+  end
+  object Label10: TLabel
+    Left = 16
+    Height = 20
+    Top = 296
+    Width = 118
+    Caption = 'Minimum Speed:'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label11: TLabel
+    Left = 17
+    Height = 20
+    Top = 328
+    Width = 121
+    Caption = 'Maximum Speed:'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object SpinEditMinSpeed: TSpinEdit
+    Left = 169
+    Height = 28
+    Top = 296
+    Width = 90
+    MinValue = 1
+    TabOrder = 9
+    Value = 1
+  end
+  object SpinEditMaxSpeed: TSpinEdit
+    Left = 169
+    Height = 28
+    Top = 328
+    Width = 90
+    MinValue = 1
+    TabOrder = 10
+    Value = 1
+  end
+  object CheckBoxWrapAround: TCheckBox
+    Left = 16
+    Height = 24
+    Top = 400
+    Width = 164
+    Caption = 'Wrap Around Edges'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clBlack
+    Font.Height = -15
+    Font.Name = 'Segoe UI'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentFont = False
+    TabOrder = 12
+  end
+end

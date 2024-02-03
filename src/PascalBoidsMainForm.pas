@@ -1,15 +1,19 @@
 unit PascalBoidsMainForm;
 
-{$mode objfpc}{$H+}
+// Copyright (c) 2024 Rick Rutt
 
+{$mode objfpc}{$H+}
+{$WARN 5024 off : Parameter "$1" not used}
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, Spin, PascalBoidsField;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls, StdCtrls, Spin,
+  PascalBoidsRuleForm,
+  PascalBoidsField;
 
 const
-  PRODUCT_VERSION = '1.0.0+20240127';
+  PRODUCT_VERSION = '1.0.0+20240202';
+  MAXIMUM_BOID_COUNT = 1000;
 
 type
 
@@ -20,14 +24,21 @@ type
     ButtonPause: TButton;
     ButtonStart: TButton;
     ButtonRandomize: TButton;
+    ButtonRules: TButton;
     Label1: TLabel;
+    Label3: TLabel;
     LabelBoidCount: TLabel;
+    LabelHawkCount: TLabel;
+    Label2: TLabel;
     SpinEditBoidCount: TSpinEdit;
     Timer1: TTimer;
     procedure ButtonPauseClick(Sender: TObject);
     procedure ButtonRandomizeClick(Sender: TObject);
+    procedure ButtonRulesMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure ButtonStartClick(Sender: TObject);
     procedure ButtonStepClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
     procedure ResizeField;
@@ -53,13 +64,20 @@ begin
 
   SpinEditBoidCount.MinValue := 1;
   SpinEditBoidCount.Increment := 5;
-  SpinEditBoidCount.MaxValue := MAXIMUM_Boid_COUNT;
-  SpinEditBoidCount.Value := DEFAULT_Boid_COUNT;
+  SpinEditBoidCount.MaxValue := MAXIMUM_BOID_COUNT;
+  SpinEditBoidCount.Value := DEFAULT_BOID_COUNT;
+
+  RuleForm.SetDefaultValues;
+  RuleForm.CopyFieldsToControls;
 
   Field := TPascalBoidsField.Create(Self);
+  Field.RuleForm := RuleForm;
   ResizeField;
 
-  LabelBoidCount.Caption := Format('%d', [Field.ActiveBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount - Field.CurrentHawkCount]);
+  LabelHawkCount.Caption := Format('%d', [Field.CurrentHawkCount]);
+
+  ButtonStart.Enabled := false;
 end;
 
 procedure TPascalBoidsMainForm.ResizeField;
@@ -85,12 +103,10 @@ begin
   Field.Iterate;
   Field.Paint;
 
-  LabelBoidCount.Caption := Format('%d', [Field.ActiveBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount - Field.CurrentHawkCount]);
+  LabelHawkCount.Caption := Format('%d', [Field.CurrentHawkCount]);
 
-  // Reenable the timer if more than one Boid remains.
-  if (Field.ActiveBoidCount > 1) then begin
-    Timer1.Enabled := true;
-  end;
+  Timer1.Enabled := true;
 end;
 
 procedure TPascalBoidsMainForm.ButtonRandomizeClick(Sender: TObject);
@@ -102,11 +118,19 @@ begin
   Field.Randomize(SpinEditBoidCount.Value);
   Field.Paint;
 
-  LabelBoidCount.Caption := Format('%d', [Field.ActiveBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount - Field.CurrentHawkCount]);
+  LabelHawkCount.Caption := Format('%d', [Field.CurrentHawkCount]);
 
   ButtonRandomize.Enabled := true;
   ButtonStart.Enabled := true;
   ButtonStep.Enabled := true;
+  ButtonRules.Enabled := true;
+end;
+
+procedure TPascalBoidsMainForm.ButtonRulesMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  RuleForm.Show;
 end;
 
 procedure TPascalBoidsMainForm.ButtonPauseClick(Sender: TObject);
@@ -118,6 +142,7 @@ begin
   ButtonRandomize.Enabled := true;
   ButtonStart.Enabled := true;
   ButtonStep.Enabled := true;
+  ButtonRules.Enabled := true;
 end;
 
 procedure TPascalBoidsMainForm.ButtonStartClick(Sender: TObject);
@@ -129,6 +154,9 @@ begin
   Timer1.Enabled := true;
 
   ButtonPause.Enabled := true;
+  ButtonRules.Enabled := false;
+
+  RuleForm.Hide;
 end;
 
 procedure TPascalBoidsMainForm.ButtonStepClick(Sender: TObject);
@@ -136,7 +164,15 @@ begin
   Field.Iterate;
   Field.Paint;
 
-  LabelBoidCount.Caption := Format('%d', [Field.ActiveBoidCount]);
+  LabelBoidCount.Caption := Format('%d', [Field.CurrentBoidCount - Field.CurrentHawkCount]);
+  LabelHawkCount.Caption := Format('%d', [Field.CurrentHawkCount]);
+end;
+
+procedure TPascalBoidsMainForm.FormClose(Sender: TObject;
+  var CloseAction: TCloseAction);
+begin
+  FreeAndNil(RuleForm);
+  Application.Terminate;
 end;
 
 end.

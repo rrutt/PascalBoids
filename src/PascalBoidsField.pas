@@ -1,33 +1,35 @@
 unit PascalBoidsField;
-{$WARN 5024 off : Parameter "$1" not used}
 
+// Copyright (c) 2024 Rick Rutt
+
+{$WARN 5024 off : Parameter "$1" not used}
+{$WARN 6018 off : unreachable code}
 interface
 
 {$mode objfpc}{$H+}
 
 uses
-  Classes, SysUtils, Controls, Dialogs, Graphics, LCLType, Boid;
+  Classes, SysUtils, Controls, Dialogs, FGL, Graphics, LCLType,
+  Boid,
+  PascalBoidsRuleForm;
 
 const
-  MAXIMUM_BOID_COUNT = 1000;
   DEFAULT_BOID_COUNT = 100;
 
 type
   TPascalBoidsField = class(TCustomControl)
-    private
-      InitialBoidCount: Integer;
-      CenterX: Integer;
-      CenterY: Integer;
-
     public
-      ActiveBoidCount: Integer;
+      RuleForm: TPascalBoidsRuleForm;
+
+      CurrentBoidCount: Integer;
+      CurrentHawkCount: Integer;
 
       procedure Initialize;
       procedure Randomize(const BoidCount: Integer);
       procedure Iterate;
       procedure EraseBackground({%H-}DC: HDC); override;
       procedure Paint; override;
-      procedure AddNewBoid(const X: Integer; const Y: Integer);
+      procedure AddNewBoid(const X: Integer; const Y: Integer; const MakeHawk: Boolean);
       procedure MouseDown(Sender: TObject; Button: TMouseButton;
         {%H-}Shift: TShiftState; X, Y: Integer); overload;
   end;
@@ -35,81 +37,78 @@ type
 implementation
 
   var
-    Boids: array[1..MAXIMUM_BOID_COUNT] of TBoid;
+    Boids: specialize TFPGObjectList<TBoid>;
 
   procedure TPascalBoidsField.Initialize;
-  var
-    i: Integer;
-    a: TBoid;
   begin
-    InitialBoidCount := MAXIMUM_BOID_COUNT;
+    Boids := specialize TFPGObjectList<TBoid>.Create;
 
-    CenterX := Width div 2;
-    CenterY := Height div 2;
-
-    for i := 1 to MAXIMUM_BOID_COUNT do begin
-      a := TBoid.Create;
-      Boids[i] := a;
-    end;
-
-    ActiveBoidCount := 0;
+    CurrentBoidCount := 0;
+    CurrentHawkCount := 0;
 
     OnMouseDown := @MouseDown;
   end;
 
   procedure TPascalBoidsField.Randomize(const BoidCount: Integer);
   var
+    randomX: Integer;
+    randomY: Integer;
     i: Integer;
+    makeHawk: Boolean;
   begin
-    InitialBoidCount := BoidCount;
+    if (CurrentBoidCount > 0) then begin
+      Boids.Destroy;
 
-    for i := 1 to InitialBoidCount do begin
-      Boids[i].Randomize(Width, Height);
+      CurrentBoidCount := 0;
+      CurrentHawkCount := 0;
     end;
 
-    ActiveBoidCount := InitialBoidCount;
+    Boids := specialize TFPGObjectList<TBoid>.Create;
+
+    for i := 1 to BoidCount do begin
+      randomX := Trunc(1.0 + Random(Width - 1));
+      randomY := Trunc(1.0 + Random(Height - 1));
+
+      makeHawk := false;
+      AddNewBoid(randomX, randomY, makeHawk);
+    end;
+
+    CurrentBoidCount := BoidCount;
+    CurrentHawkCount := 0;
   end;
 
   procedure TPascalBoidsField.Iterate;
   var
-    i: Integer;
-    j: Integer;
-    ai: TBoid;
-    aj: TBoid;
+    bi: TBoid;
+    avoidHawk: Boolean;
+    boidsEnumerator: specialize TFpGListEnumerator<TBoid>;
   begin
-    for i := 1 to InitialBoidCount do begin
-      ai := Boids[i];
-      if (ai.IsActive) then begin
-        for j := 1 to InitialBoidCount do begin
-          aj := Boids[j];
-          if ((i <> j) and aj.IsActive) then begin
-            if (ai.MergeIfAdjacent(aj)) then begin
-              Dec(ActiveBoidCount);
-            end;
-          end;
-        end;
-      end;
+    boidsEnumerator := boids.GetEnumerator;
+    while (boidsEnumerator.MoveNext) do begin
+      bi := BoidsEnumerator.Current;
+
+      bi.Flock(Boids, RuleForm.FlockDistance, RuleForm.FlockPower);
+
+      bi.Align(Boids, RuleForm.AlignDistance, RuleForm.AlignPower);
+
+      avoidHawk := false;
+      bi.Avoid(Boids, avoidHawk, RuleForm.AvoidBoidDistance, RuleForm.AvoidBoidPower);
+
+      avoidHawk := true;
+      bi.Avoid(Boids, avoidHawk, RuleForm.AvoidHawkDistance, RuleForm.AvoidHawkPower);
+
+      bi.AdjustVelocity;
     end;
 
-    for i := 1 to InitialBoidCount do begin
-      ai := Boids[i];
-      if (ai.IsActive) then begin
-        ai.AccelerationX := 0.0;
-        ai.AccelerationY := 0.0;
+    boidsEnumerator := boids.GetEnumerator;
+    while (boidsEnumerator.MoveNext) do begin
+      bi := BoidsEnumerator.Current;
+      bi.MoveForward(RuleForm.MinSpeed, RuleForm.MaxSpeed);
 
-        for j := 1 to InitialBoidCount do begin
-          aj := Boids[j];
-          if ((i <> j) and aj.IsActive) then begin
-            ai.Accelerate(aj);
-          end;
-        end;
-      end;
-    end;
-
-    for i := 1 to InitialBoidCount do begin
-      ai := Boids[i];
-      if (ai.IsActive) then begin
-        ai.Move;
+      if (RuleForm.WrapAroundEdges) then begin
+        bi.WrapAround(Width, Height);
+      end else begin
+        bi.BounceAwayFromWalls(Width, Height, RuleForm.BounceDistance);
       end;
     end;
   end;
@@ -122,8 +121,8 @@ implementation
 
   procedure TPascalBoidsField.Paint;
   var
-    i: Integer;
-    a: TBoid;
+    boidsEnumerator: specialize TFpGListEnumerator<TBoid>;
+    bi: TBoid;
     Bitmap: TBitmap;
   begin
     Bitmap := TBitmap.Create;
@@ -136,13 +135,10 @@ implementation
       Bitmap.Canvas.Brush.Color := clAqua;
       Bitmap.Canvas.FillRect(0, 0, Width, Height);
 
-      Bitmap.Canvas.Pen.Color := clWhite;
-      Bitmap.Canvas.Brush.Color := clWhite;
-      for i := 1 to InitialBoidCount do begin
-        a := Boids[i];
-        if (a.IsActive) then begin
-          a.Paint(Bitmap.Canvas);
-        end;
+      boidsEnumerator := boids.GetEnumerator;
+      while (boidsEnumerator.MoveNext) do begin
+        bi := BoidsEnumerator.Current;
+        bi.Paint(Bitmap.Canvas);
       end;
 
       Canvas.Draw(0, 0, Bitmap);
@@ -153,34 +149,21 @@ implementation
     inherited Paint;
   end;
 
-  procedure TPascalBoidsField.AddNewBoid(const X: Integer; const Y: Integer);
+  procedure TPascalBoidsField.AddNewBoid(const X: Integer; const Y: Integer; const MakeHawk: Boolean);
   var
-    reactivatedBoid: Boolean;
     i: Integer;
-    ai: TBoid;
+    bi: TBoid;
   begin
-    reactivatedBoid := false;
+    bi := TBoid.Create;
+    bi.Initialize(X, Y);
+    Boids.Add(bi);
+    Inc(CurrentBoidCount);
+    i := CurrentBoidCount;
+    bi.BoidNumber := i;
+    bi.IsHawk := MakeHawk;
 
-    for i := 1 to InitialBoidCount do begin
-      ai := Boids[i];
-      if (not reactivatedBoid) and (not ai.IsActive) then begin
-        ai.Initialize(X, Y);
-        Inc(ActiveBoidCount);
-        reactivatedBoid := true;
-      end;
-    end;
-
-    if (not reactivatedBoid) then begin
-      if (InitialBoidCount < MAXIMUM_BOID_COUNT) then begin
-        i := InitialBoidCount + 1;
-        ai := Boids[i];
-        ai.Initialize(X, Y);
-
-        Inc(InitialBoidCount);
-        Inc(ActiveBoidCount);
-      end else begin
-        ShowMessage(Format('The maximum number of Boid slots (%d) has been reached.', [MAXIMUM_BOID_COUNT]));
-      end;
+    if (MakeHawk) then begin
+      Inc(CurrentHawkCount);
     end;
   end;
 
@@ -189,11 +172,15 @@ implementation
   var
     truncX: Integer;
     truncY: Integer;
+    makeHawk: Boolean;
   begin
+    // Left click adds regular Boid; right click adds Hawk.
+    makeHawk := (Button = mbRight);
+
     truncX := Trunc(X);
     truncY := Trunc(Y);
 
-    AddNewBoid(truncX, truncY);
+    AddNewBoid(truncX, truncY, makeHawk);
 
     Paint;
   end;

@@ -14,9 +14,9 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <BuildNr Value="9"/>
+      <BuildNr Value="2"/>
       <CharSet Value="03A4"/>
-      <StringTable Comments="MIT License.  https://opensource.org/licenses/MIT" CompanyName="Rick Rutt" FileDescription="Boids Flocking Simulation" LegalCopyright="Copyright 2024 Rick Rutt" ProductName="Boids Flocking Simulation" ProductVersion="1.0.0+20240127"/>
+      <StringTable Comments="MIT License.  https://opensource.org/licenses/MIT" CompanyName="Rick Rutt" FileDescription="Boids Flocking Simulation" LegalCopyright="Copyright 2024 Rick Rutt" ProductName="Boids Flocking Simulation" ProductVersion="1.0.0+20240202"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -35,7 +35,7 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="4">
+    <Units Count="5">
       <Unit0>
         <Filename Value="PascalBoids.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -55,6 +55,13 @@
         <Filename Value="Boid.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit3>
+      <Unit4>
+        <Filename Value="PascalBoidsRuleForm.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="PascalBoidsRuleForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit4>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -78,6 +85,11 @@
         </Win32>
       </Options>
     </Linking>
+    <Other>
+      <CompilerMessages>
+        <IgnoredMessages idx6058="True" idx3124="True" idx3123="True"/>
+      </CompilerMessages>
+    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions Count="3">

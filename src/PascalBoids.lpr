@@ -1,5 +1,7 @@
 program PascalBoids;
 
+// Copyright (c) 2024 Rick Rutt
+
 {$mode objfpc}{$H+}
 
 {$IFDEF WINDOWS}
@@ -13,6 +15,7 @@ uses
   Interfaces, // this includes the LCL widgetset
   Forms,
   PascalBoidsMainForm,
+  PascalBoidsRuleForm,
   Boid;
 
 begin
@@ -20,7 +23,11 @@ begin
 
   RequireDerivedFormResource := True;
   Application.Initialize;
+
+  // Create RuleForm first so that MainForm can access its fields and methods.
+  Application.CreateForm(TPascalBoidsRuleForm, RuleForm);
   Application.CreateForm(TPascalBoidsMainForm, MainForm);
+
   Application.Run;
 end.
 
