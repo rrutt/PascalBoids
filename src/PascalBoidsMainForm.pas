@@ -12,7 +12,7 @@ uses
   PascalBoidsField;
 
 const
-  PRODUCT_VERSION = '1.0.0+20240202';
+  PRODUCT_VERSION = '1.0.1+20240205';
   MAXIMUM_BOID_COUNT = 1000;
 
 type

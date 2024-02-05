@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <BuildModes Active="Default"/>
     <Units Count="10">
       <Unit0>
@@ -18,12 +18,12 @@
         <ComponentName Value="PascalBoidsMainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="21"/>
-        <CursorPos X="53" Y="37"/>
+        <TopLine Value="4"/>
+        <CursorPos X="36" Y="15"/>
         <UsageCount Value="232"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="PascalBoidsField.pas"/>
@@ -48,13 +48,11 @@
         <ComponentName Value="PascalBoidsRuleForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="143"/>
         <CursorPos X="56" Y="160"/>
         <UsageCount Value="113"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="D:\FreePascal\lazarus\lcl\controls.pp"/>
@@ -84,7 +82,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1136"/>
         <CursorPos X="5" Y="1152"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit8>
       <Unit9>
         <Filename Value="D:\FreePascal\lazarus\fpc\3.2.0\source\rtl\objpas\sysutils\sysutilh.inc"/>
@@ -217,17 +215,17 @@
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes Count="0" ActiveMode="default"/>
+      <Modes ActiveMode="default"/>
     </RunParams>
   </ProjectSession>
   <Debugging>
-    <Watches Count="2">
-      <Item1>
+    <Watches>
+      <Item>
         <Expression Value="AlignX"/>
-      </Item1>
-      <Item2>
+      </Item>
+      <Item>
         <Expression Value="meanX"/>
-      </Item2>
+      </Item>
     </Watches>
   </Debugging>
 </CONFIG>

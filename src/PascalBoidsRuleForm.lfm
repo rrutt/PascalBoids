@@ -2,14 +2,14 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
   Left = 845
   Height = 493
   Top = 212
-  Width = 278
+  Width = 303
   Caption = 'Boids Rules'
   ClientHeight = 493
-  ClientWidth = 278
+  ClientWidth = 303
   OnCloseQuery = FormCloseQuery
-  LCLVersion = '2.0.10.0'
+  LCLVersion = '2.2.0.4'
   object ButtonApply: TButton
-    Left = 120
+    Left = 144
     Height = 41
     Top = 440
     Width = 64
@@ -26,7 +26,7 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     TabOrder = 14
   end
   object ButtonHide: TButton
-    Left = 190
+    Left = 214
     Height = 41
     Top = 440
     Width = 67
@@ -44,9 +44,9 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
   end
   object Label1: TLabel
     Left = 16
-    Height = 20
+    Height = 18
     Top = 8
-    Width = 126
+    Width = 155
     Caption = 'Flocking Distance:'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -55,14 +55,13 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Font.Style = [fsBold]
-    ParentColor = False
     ParentFont = False
   end
   object Label2: TLabel
     Left = 17
-    Height = 20
+    Height = 18
     Top = 40
-    Width = 111
+    Width = 134
     Caption = 'Flocking Power:'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -71,12 +70,11 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Font.Style = [fsBold]
-    ParentColor = False
     ParentFont = False
   end
   object SpinEditFlockDistance: TSpinEdit
-    Left = 169
-    Height = 28
+    Left = 202
+    Height = 34
     Top = 8
     Width = 90
     MaxValue = 1000
@@ -86,9 +84,9 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
   end
   object Label3: TLabel
     Left = 16
-    Height = 20
+    Height = 18
     Top = 80
-    Width = 127
+    Width = 155
     Caption = 'Aligning Distance:'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -97,14 +95,13 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Font.Style = [fsBold]
-    ParentColor = False
     ParentFont = False
   end
   object Label4: TLabel
     Left = 16
-    Height = 20
+    Height = 18
     Top = 112
-    Width = 112
+    Width = 134
     Caption = 'Aligning Power:'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -113,12 +110,11 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Font.Style = [fsBold]
-    ParentColor = False
     ParentFont = False
   end
   object SpinEditAlignDistance: TSpinEdit
-    Left = 169
-    Height = 28
+    Left = 202
+    Height = 34
     Top = 80
     Width = 90
     MaxValue = 1000
@@ -128,9 +124,9 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
   end
   object Label5: TLabel
     Left = 16
-    Height = 20
+    Height = 18
     Top = 152
-    Width = 145
+    Width = 173
     Caption = 'Avoid Boid Distance:'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -139,12 +135,11 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Font.Style = [fsBold]
-    ParentColor = False
     ParentFont = False
   end
   object SpinEditAvoidBoidDistance: TSpinEdit
-    Left = 169
-    Height = 28
+    Left = 202
+    Height = 34
     Top = 152
     Width = 90
     MaxValue = 1000
@@ -154,9 +149,9 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
   end
   object Label6: TLabel
     Left = 16
-    Height = 20
+    Height = 18
     Top = 184
-    Width = 130
+    Width = 152
     Caption = 'Avoid Boid Power:'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -165,14 +160,13 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Font.Style = [fsBold]
-    ParentColor = False
     ParentFont = False
   end
   object ButtonSetDefaults: TButton
     Left = 16
     Height = 41
     Top = 440
-    Width = 96
+    Width = 120
     Caption = 'Set Defaults'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -187,9 +181,9 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
   end
   object Label7: TLabel
     Left = 16
-    Height = 20
+    Height = 18
     Top = 224
-    Width = 152
+    Width = 183
     Caption = 'Avoid Hawk Distance:'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -198,12 +192,11 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Font.Style = [fsBold]
-    ParentColor = False
     ParentFont = False
   end
   object SpinEditAvoidHawkDistance: TSpinEdit
-    Left = 169
-    Height = 28
+    Left = 202
+    Height = 34
     Top = 224
     Width = 90
     MaxValue = 1000
@@ -213,9 +206,9 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
   end
   object Label8: TLabel
     Left = 16
-    Height = 20
+    Height = 18
     Top = 256
-    Width = 137
+    Width = 162
     Caption = 'Avoid Hawk Power:'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -224,36 +217,35 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Font.Style = [fsBold]
-    ParentColor = False
     ParentFont = False
   end
   object EditFlockPower: TEdit
-    Left = 169
-    Height = 28
+    Left = 202
+    Height = 34
     Top = 40
     Width = 90
     TabOrder = 2
     Text = 'EditFlockPower'
   end
   object EditAlignPower: TEdit
-    Left = 167
-    Height = 28
+    Left = 200
+    Height = 34
     Top = 112
     Width = 90
     TabOrder = 4
     Text = 'EditAlignPower'
   end
   object EditAvoidBoidPower: TEdit
-    Left = 169
-    Height = 28
+    Left = 202
+    Height = 34
     Top = 184
     Width = 90
     TabOrder = 6
     Text = 'EditAvoidBoidPower'
   end
   object EditAvoidHawkPower: TEdit
-    Left = 169
-    Height = 28
+    Left = 202
+    Height = 34
     Top = 256
     Width = 90
     TabOrder = 8
@@ -261,9 +253,9 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
   end
   object Label9: TLabel
     Left = 17
-    Height = 20
+    Height = 18
     Top = 368
-    Width = 120
+    Width = 146
     Caption = 'Bounce Distance:'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -272,12 +264,11 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Font.Style = [fsBold]
-    ParentColor = False
     ParentFont = False
   end
   object SpinEditBounceDistance: TSpinEdit
-    Left = 169
-    Height = 28
+    Left = 202
+    Height = 34
     Top = 368
     Width = 90
     MinValue = 1
@@ -286,9 +277,9 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
   end
   object Label10: TLabel
     Left = 16
-    Height = 20
+    Height = 18
     Top = 296
-    Width = 118
+    Width = 143
     Caption = 'Minimum Speed:'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -297,14 +288,13 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Font.Style = [fsBold]
-    ParentColor = False
     ParentFont = False
   end
   object Label11: TLabel
     Left = 17
-    Height = 20
+    Height = 18
     Top = 328
-    Width = 121
+    Width = 147
     Caption = 'Maximum Speed:'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
@@ -313,12 +303,11 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Font.Pitch = fpVariable
     Font.Quality = fqDraft
     Font.Style = [fsBold]
-    ParentColor = False
     ParentFont = False
   end
   object SpinEditMinSpeed: TSpinEdit
-    Left = 169
-    Height = 28
+    Left = 202
+    Height = 34
     Top = 296
     Width = 90
     MinValue = 1
@@ -326,8 +315,8 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Value = 1
   end
   object SpinEditMaxSpeed: TSpinEdit
-    Left = 169
-    Height = 28
+    Left = 202
+    Height = 34
     Top = 328
     Width = 90
     MinValue = 1
@@ -335,10 +324,10 @@ object PascalBoidsRuleForm: TPascalBoidsRuleForm
     Value = 1
   end
   object CheckBoxWrapAround: TCheckBox
-    Left = 16
-    Height = 24
-    Top = 400
-    Width = 164
+    Left = 17
+    Height = 23
+    Top = 408
+    Width = 193
     Caption = 'Wrap Around Edges'
     Font.CharSet = ANSI_CHARSET
     Font.Color = clBlack
