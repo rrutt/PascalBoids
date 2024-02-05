@@ -61,7 +61,7 @@ The Main Form contains these elements:
 - The **Step** button advances the simulation for a single time step.  It is active when the simulation is paused, or has not yet been started.
 - The **Rules** button opens the _Boids Rules_ dialog form.  (This form also appears when the program is run.)  The rules form disappears when the **Start** button is clicked.  Click the **Rules** button to re-open the rules form.
 - Displayed next to the **Rules** button are the current number of Boids and predator Hawks.
-- The majority of the Main Form contains the graphic display area for the simulation space.  Boids appear white on a sky blue background. Left-click on the display to add a new Boid at the moust position.  Right-click to add a new predator Hawk, which appears in maroon.
+- The majority of the Main Form contains the graphic display area for the simulation space.  Boids appear white on a sky blue background. Left-click on the display to add a new Boid at the mouse position.  Right-click to add a new predator Hawk, which appears in maroon.
 
 ![PascalBoids Rules Form](img/BoidsRules.png?raw=true "PascalBoids Rules Form")
 
