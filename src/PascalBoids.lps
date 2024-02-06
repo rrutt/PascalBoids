@@ -18,9 +18,10 @@
         <ComponentName Value="PascalBoidsMainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="21"/>
-        <CursorPos X="53" Y="37"/>
+        <TopLine Value="4"/>
+        <CursorPos X="36" Y="15"/>
         <UsageCount Value="232"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -37,7 +38,7 @@
         <Filename Value="Boid.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="4"/>
-        <TopLine Value="364"/>
+        <TopLine Value="3"/>
         <CursorPos X="32" Y="3"/>
         <UsageCount Value="222"/>
         <Loaded Value="True"/>
@@ -48,13 +49,11 @@
         <ComponentName Value="PascalBoidsRuleForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="143"/>
         <CursorPos X="56" Y="160"/>
-        <UsageCount Value="112"/>
+        <UsageCount Value="113"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="D:\FreePascal\lazarus\lcl\controls.pp"/>
@@ -84,7 +83,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1136"/>
         <CursorPos X="5" Y="1152"/>
-        <UsageCount Value="0"/>
+        <UsageCount Value="10"/>
       </Unit8>
       <Unit9>
         <Filename Value="D:\FreePascal\lazarus\fpc\3.2.0\source\rtl\objpas\sysutils\sysutilh.inc"/>
@@ -220,14 +219,4 @@
       <Modes Count="0" ActiveMode="default"/>
     </RunParams>
   </ProjectSession>
-  <Debugging>
-    <Watches Count="2">
-      <Item1>
-        <Expression Value="AlignX"/>
-      </Item1>
-      <Item2>
-        <Expression Value="meanX"/>
-      </Item2>
-    </Watches>
-  </Debugging>
 </CONFIG>

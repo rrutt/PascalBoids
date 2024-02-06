@@ -1,6 +1,6 @@
 # Boids Flocking Simulation in Pascal
 
-_Version 1.0.0 20240127  ([Version Release Notes](#ReleaseNotes))_ 
+_Version 1.0.1 20240205  ([Version Release Notes](#ReleaseNotes))_ 
 
 **Boids Flocking Simulation** is an open source simulation of a flock of birds.
 
@@ -10,7 +10,7 @@ This Free Pascal
 
 ## About the Software
 
-The software is a self-contained executable program, written in **[Free Pascal](https://www.freepascal.org/)**, that runs on Microsoft Windows or _(coming soon)_ Ubuntu Linux (and presumably other Linux distributions).
+The software is a self-contained executable program, written in **[Free Pascal](https://www.freepascal.org/)**, that runs on Microsoft Windows or Ubuntu Linux (and presumably other Linux distributions).
 (No separate run-time environment is required to run the program.)
 
 The **[Lazarus Integrated Development Environment](https://www.lazarus-ide.org/)** was used to develop the program.
@@ -29,8 +29,6 @@ You can run the Boids Flocking Simulation program on Microsoft Windows as follow
 - To uninstall the program, simply delete the **PascalBoids.exe** file.
 
 ### Ubuntu Linux
-
-_(Coming Soon)_
 
 You can run the Boids Flocking Simulation program on Ubuntu Linux (and presumably other Linux distributions) as follows:
 
@@ -61,7 +59,7 @@ The Main Form contains these elements:
 - The **Step** button advances the simulation for a single time step.  It is active when the simulation is paused, or has not yet been started.
 - The **Rules** button opens the _Boids Rules_ dialog form.  (This form also appears when the program is run.)  The rules form disappears when the **Start** button is clicked.  Click the **Rules** button to re-open the rules form.
 - Displayed next to the **Rules** button are the current number of Boids and predator Hawks.
-- The majority of the Main Form contains the graphic display area for the simulation space.  Boids appear white on a sky blue background. Left-click on the display to add a new Boid at the moust position.  Right-click to add a new predator Hawk, which appears in maroon.
+- The majority of the Main Form contains the graphic display area for the simulation space.  Boids appear white on a sky blue background. Left-click on the display to add a new Boid at the mouse position.  Right-click to add a new predator Hawk, which appears in maroon.
 
 ![PascalBoids Rules Form](img/BoidsRules.png?raw=true "PascalBoids Rules Form")
 
@@ -116,6 +114,10 @@ Then rebuild the executable using the **Run | Build** menu item (or using the sh
 <a name="ReleaseNotes"></a>
 
 ## Release Notes
+
+### Version 1.0.1
+
+Added the version compiled for Linux.
 
 ### Version 1.0.0
 
