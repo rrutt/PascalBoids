@@ -2,7 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <PathDelim Value="\"/>
-    <Version Value="12"/>
+    <Version Value="11"/>
     <BuildModes Active="Default"/>
     <Units Count="10">
       <Unit0>
@@ -24,6 +24,7 @@
         <CursorPos X="36" Y="15"/>
         <UsageCount Value="232"/>
         <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="PascalBoidsField.pas"/>
@@ -215,17 +216,7 @@
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes ActiveMode="default"/>
+      <Modes Count="0" ActiveMode="default"/>
     </RunParams>
   </ProjectSession>
-  <Debugging>
-    <Watches>
-      <Item>
-        <Expression Value="AlignX"/>
-      </Item>
-      <Item>
-        <Expression Value="meanX"/>
-      </Item>
-    </Watches>
-  </Debugging>
 </CONFIG>

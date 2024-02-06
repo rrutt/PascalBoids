@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="12"/>
+    <Version Value="11"/>
     <PathDelim Value="\"/>
     <General>
-      <Flags>
-        <CompatibilityMode Value="True"/>
-      </Flags>
       <SessionStorage Value="InProjectDir"/>
+      <MainUnit Value="0"/>
       <Title Value="PascalBoids"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -17,7 +15,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="3"/>
+      <BuildNr Value="4"/>
       <CharSet Value="03A4"/>
       <StringTable Comments="MIT License.  https://opensource.org/licenses/MIT" CompanyName="Rick Rutt" FileDescription="Boids Flocking Simulation" LegalCopyright="Copyright 2024 Rick Rutt" ProductName="Boids Flocking Simulation" ProductVersion="1.0.1+20240205"/>
     </VersionInfo>
