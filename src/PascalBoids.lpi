@@ -17,7 +17,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="2"/>
+      <BuildNr Value="3"/>
       <CharSet Value="03A4"/>
       <StringTable Comments="MIT License.  https://opensource.org/licenses/MIT" CompanyName="Rick Rutt" FileDescription="Boids Flocking Simulation" LegalCopyright="Copyright 2024 Rick Rutt" ProductName="Boids Flocking Simulation" ProductVersion="1.0.1+20240205"/>
     </VersionInfo>
@@ -79,6 +79,7 @@
     </SearchPaths>
     <Linking>
       <Debugging>
+        <GenerateDebugInfo Value="False"/>
         <DebugInfoType Value="dsDwarf3"/>
       </Debugging>
       <Options>
